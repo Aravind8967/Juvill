@@ -41,10 +41,11 @@ document.addEventListener("click", function (e) {
 // ========================= All inventory section ========================
 // Jewelry data fetched from your backend
 async function get_all_inventory(u_id) {
-    const response = await fetch(`/get_all_data_by_id/${u_id}`)
+    const response = await fetch(`/get_all_data_by_id/${u_id}`);
     const result = await response.json();
+
     if (response.ok) {
-        var all_data = result.data;
+        const all_data = result.data;
         if (all_data.length > 0) {
             const jewelryData = all_data;
             const cardsContainer = document.getElementById("cards-container");
@@ -53,16 +54,16 @@ async function get_all_inventory(u_id) {
             jewelryData.forEach(jewel => {
                 const cardWrapper = document.createElement("div");
                 cardWrapper.classList.add("j-card");
-                var j_material_price = get_price(jewel.j_material, jewel.j_purity);
-                console.log(jewel.j_material, jewel.j_purity)
-                var j_material_cost = j_material_price * jewel.j_weight;
-                var gst = (j_material_cost * jewel.j_gst) / 100;
-                var westage = (j_material_cost * jewel.j_westage) / 100;
-                var making_charge = (j_material_cost * jewel.j_making_charge) / 100;
-                // console.log({'j_material_cost' : j_material_cost, 'gst':gst, 'westage':westage, 'making_charge' : making_charge})
-                var j_price = (j_material_cost + gst + westage + making_charge)
 
-                // Set the inner HTML of the card
+                // Calculate price details
+                const j_material_price = get_price(jewel.j_material, jewel.j_purity);
+                const j_material_cost = j_material_price * jewel.j_weight;
+                const gst = (j_material_cost * jewel.j_gst) / 100;
+                const westage = (j_material_cost * jewel.j_westage) / 100;
+                const making_charge = (j_material_cost * jewel.j_making_charge) / 100;
+                const j_price = (j_material_cost + gst + westage + making_charge);
+
+                // Set the card HTML
                 cardWrapper.innerHTML = `
                     <div class="j-card-inner">
                         <!-- Front -->
@@ -85,32 +86,41 @@ async function get_all_inventory(u_id) {
                                     <div style="text-align: center;">${jewel.j_making_charge} %</div>
                                 </div>
                             </div>
-                            <div class="j-card-price" style="margin-top: 30px;">Rs. ${j_price}</div>                   
+                            <div class="j-card-price" style="margin-top: 30px;">Rs. ${j_price}</div>
+                        </div>
+                        <!-- Back -->
+                        <div class="j-card-back">
+                            <img src="${jewel.j_image || 'default_img.jpg'}" alt="${jewel.j_name}">
                         </div>
                     </div>
                 `;
 
+                // Add flip functionality
+                const cardInner = cardWrapper.querySelector(".j-card-inner");
+                cardWrapper.addEventListener("click", () => {
+                    cardInner.classList.toggle("flipped");
+                });
+
                 // Append the card to the container
                 cardsContainer.appendChild(cardWrapper);
             });
-
-        }
-        else {
-            alert(`Inventry is empty`);
+        } else {
+            alert(`Inventory is empty`);
         }
     }
-
-    // Edit functionality
-    function editJewel(j_id) {
-        alert(`Edit Jewel with ID: ${j_id}`);
-    }
-
-    // Delete functionality
-    function deleteJewel(j_id) {
-        alert(`Delete Jewel with ID: ${j_id}`);
-    }
-
 }
+
+// Edit functionality
+function editJewel(j_id) {
+    alert(`Edit Jewel with ID: ${j_id}`);
+}
+
+// Delete functionality
+function deleteJewel(j_id) {
+    alert(`Delete Jewel with ID: ${j_id}`);
+}
+
+
 
 function get_price(j_material, j_purity) {
     console.log(`${j_material}_price_${j_purity}`);

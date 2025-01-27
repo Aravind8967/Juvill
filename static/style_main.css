@@ -39,11 +39,12 @@ hr {
     border-radius: 1rem;
 }
 
-#top_bar_section #price_table_section input {
+#price_table_section input {
     width: 50%;
 }
 
-#top_bar_section #price_table_section {
+#price_table_section {
+    margin-top: 2rem;
     margin-left: 6rem;
     display: none;
     /* Hidden by default */
@@ -99,7 +100,7 @@ hr {
 /* ======================= All inventory section ===================== */
 #all_inventory_section {
     overflow-y: scroll;
-    margin-top: 4rem;
+    margin-top: 2rem;
     margin-left: 5rem;
     width: 90%;
     height: 40rem;
@@ -254,27 +255,6 @@ hr {
 /* ===================================================================== */
 /* ===================== Testing card section ========================= */
 
-/* Card Styles */
-#all_inventory_section .j-card {
-    border: 0.5px white solid;
-    position: relative;
-    width: 250px;
-    height: 350px;
-    perspective: 1000px;
-    cursor: pointer;
-    border-radius: 15px;
-    transition: transform 0.3s;
-}
-
-#all_inventory_section .j-card-inner {
-    width: 100%;
-    height: 100%;
-    position: relative;
-    transform-style: preserve-3d;
-    transition: transform 0.6s;
-}
-
-/* Card Flipping */
 #all_inventory_section .j-card.gold .j-card-front {
     background: #ffd700; /* Gold color */
 }
@@ -293,8 +273,8 @@ hr {
 .j-card-back {
     width: 100%;
     height: 100%;
-    /* position: absolute; */
-    /* backface-visibility: hidden; */
+    position: absolute;
+    backface-visibility: hidden;
     border-radius: 15px;
     box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
     display: flex;
@@ -392,6 +372,56 @@ hr {
     border-radius: 10px;
 }
 
+/* ======================== last flip of card ==================== */
+#all_inventory_section .j-card {
+    perspective: 1000px; /* Enables 3D effect */
+    position: relative;
+    width: 250px; /* Adjust as needed */
+    height: 350px; /* Adjust as needed */
+    margin: 15px;
+}
+
+#all_inventory_section .j-card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: transform 0.6s; /* Smooth flip animation */
+}
+
+#all_inventory_section .j-card-inner.flipped {
+    transform: rotateY(180deg); /* Flip card */
+}
+
+#all_inventory_section .j-card-front,
+#all_inventory_section .j-card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 15px;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+#all_inventory_section .j-card-front {
+    border: 1px solid white;
+    background-color: transparent; /* Front background color */
+    z-index: 2;
+}
+
+#all_inventory_section .j-card-back {
+    transform: rotateY(180deg); /* Flip back by default */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid white;
+    padding: 20px;
+    background-color: transparent; /* Back background color */
+}
+
+/* ==================================================================== */
+
+
 /* Buttons */
 #all_inventory_section .edit-btn,
 .delete-btn {
@@ -425,10 +455,6 @@ hr {
 
 
 /* ======================= Price table section ======================== */
-#price_table_section {
-    margin-top: 2rem;
-    margin-left: 1rem;
-}
 
 td {
     text-align: center;
