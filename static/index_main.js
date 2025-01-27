@@ -1,9 +1,22 @@
 google.charts.load('current', { 'packages': ['corechart'] });
 google.charts.setOnLoadCallback(drawChart);
+const price_chart_btn = document.getElementById("price_chart_btn");
 const insertButton = document.getElementById("insertJewelButton");
 const formBlock = document.getElementById("formBlock");
+const price_table_section = document.getElementById("price_table_section");
 let toggleDetailsFlag = true;
 const base_url = 'http://127.0.0.1/'
+
+price_chart_btn.addEventListener("click", function (e) {
+    e.stopPropagation(); // Prevent click from propagating to the document
+    price_table_section.style.display = (price_table_section.style.display === "none" || price_table_section.style.display === "") ? "block" : "none";
+});
+
+document.addEventListener("click", function (e) {
+    if (!price_table_section.contains(e.target) && e.target !== price_chart_btn) {
+        price_table_section.style.display = "none";
+    }
+});
 
 // Show/hide the form when the button is clicked
 insertButton.addEventListener("click", function (e) {

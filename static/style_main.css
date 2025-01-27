@@ -9,11 +9,56 @@ hr {
     background-color: gold;
 }
 
+/* ====================== Top bar secton ============================== */
+#top_bar_section{
+    margin-top: 2rem;
+}
+
+#top_bar_section #search_bar{
+    margin-left: 10rem;
+}
+
+#top_bar_section #search_bar #jewel_tag{
+    font-size: 1.5rem;
+}
+
+#top_bar_section #search_bar i{
+    margin-left: 1rem;
+    margin-right: 1rem;
+}
+
+#top_bar_section #p_i_btn_section{
+    margin-top: 2rem;
+}
+
+#top_bar_section #p_i_btn_section button{
+    font-size: 1.2rem;
+    float: left;
+    width: 15%;
+    margin-left: 10rem;
+    border-radius: 1rem;
+}
+
+#top_bar_section #price_table_section input{
+    width: 50%;
+}
+
+#top_bar_section #price_table_section{
+    margin-left: 6rem;
+    display: none;
+    /* Hidden by default */
+    background-color: #212529;
+    /* Dark card background */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
 
 /* ======================= Price table section ======================== */
 #price_table_section {
-    margin-top: 1%;
-    margin-left: 2%;
+    margin-top: 2rem;
+    margin-left: 1rem;
 }
 
 td {
@@ -25,14 +70,16 @@ th {
 }
 
 #gold_box {
-    height: 25px;
-    width: 50px;
+    border-radius: 25px;
+    height: 40px;
+    width: 40px;
     background-color: gold;
 }
 
 #silver_box {
-    height: 25px;
-    width: 50px;
+    border-radius: 25px;
+    height: 40px;
+    width: 40px;
     background-color: silver;
 }
 

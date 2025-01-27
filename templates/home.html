@@ -2,5 +2,102 @@
 {% block title %} welcome {{data.user.u_name}} {% endblock title%}
 
 {% block body %}
-  
+<div class="row" id="top_bar_section">
+    <div class="col-sm-6">
+        <div class="row" id="p_i_btn_section">
+            <button id="price_chart_btn"type="button" class="btn btn-success">Price Chart</button>
+            <button id="all_inventory_btn" type="button" class="btn btn-success">Inventory</button>
+        </div>
+        <div class="row">
+            <div class="col-sm-7" id="price_table_section" style="display: none;">
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Sl no</th>
+                                <th>Material</th>
+                                <th>Color</th>
+                                <th>Purity</th>
+                                <th>Weight</th>
+                                <th>Price</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>Gold</td>
+                                <td>
+                                    <div id="gold_box"></div>
+                                </td>
+                                <td>24k</td>
+                                <td>1grm</td>
+                                <td><input id="gold_price_24k" type="number" value="8000"> in Rs.</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>Gold</td>
+                                <td>
+                                    <div id="gold_box"></div>
+                                </td>
+                                <td>22k</td>
+                                <td>1grm</td>
+                                <td><input id="gold_price_22k" type="number" value="7600"> in Rs.</td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>Gold</td>
+                                <td>
+                                    <div id="gold_box"></div>
+                                </td>
+                                <td>18k</td>
+                                <td>1grm</td>
+                                <td><input id="gold_price_18k" type="number" value="6900"> in Rs.</td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td>Silver</td>
+                                <td>
+                                    <div id="silver_box"></div>
+                                </td>
+                                <td>24k</td>
+                                <td>1grm</td>
+                                <td><input id="silver_price_24k" type="number" value="1000"> in Rs.</td>
+                            </tr>
+                            <tr>
+                                <td>5</td>
+                                <td>Silver</td>
+                                <td>
+                                    <div id="silver_box"></div>
+                                </td>
+                                <td>22k</td>
+                                <td>1grm</td>
+                                <td><input id="silver_price_22k" type="number" value="900"> in Rs.</td>
+                            </tr>
+                            <tr>
+                                <td>6</td>
+                                <td>Silver</td>
+                                <td>
+                                    <div id="silver_box"></div>
+                                </td>
+                                <td>18k</td>
+                                <td>1grm</td>
+                                <td><input id="silver_price_18k" type="number" value="800"> in Rs.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6">
+        <div class="d-flex justify-content-center mt-4">
+            <div class="input-group" style="max-width: 500px;" id="search_bar">
+                <input type="number" id="jewel_tag" class="form-control" placeholder="Enter Jewel Tag Number" aria-label="Search">
+                <button id="searchButton" class="btn btn-search" onclick="get_jewel('{{data.user.id}}')">
+                    <i class="bi bi-search"></i> <!-- Bootstrap Search Icon -->
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock body %}
