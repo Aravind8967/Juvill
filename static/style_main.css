@@ -1,0 +1,198 @@
+body {
+    overflow-x: hidden;
+    padding-top: 65px;
+}
+
+hr {
+    border: 10px;
+    height: 4px;
+    background-color: gold;
+}
+
+
+/* ======================= Price table section ======================== */
+#price_table_section {
+    margin-top: 1%;
+    margin-left: 2%;
+}
+
+td {
+    text-align: center;
+}
+
+th {
+    text-align: center;
+}
+
+#gold_box {
+    height: 25px;
+    width: 50px;
+    background-color: gold;
+}
+
+#silver_box {
+    height: 25px;
+    width: 50px;
+    background-color: silver;
+}
+
+/* ====================== Jewelery insert section ======================= */
+
+#inventory_section {
+    margin-top: 1%;
+}
+
+.btn-custom {
+    background-color: #343a40;
+    color: #ffffff;
+}
+
+.btn-custom:hover {
+    background-color: #495057;
+}
+
+.form-container {
+    display: none;
+    /* Hidden by default */
+    background-color: #212529;
+    /* Dark card background */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.form-container label {
+    color: #ffffff;
+}
+
+/* ======================== Jewel searching section ========================= */
+.form-control {
+    background-color: #212529;
+    color: #ffffff;
+    border: 1px solid #495057;
+}
+
+.form-control:focus {
+    background-color: #343a40;
+    color: #ffffff;
+    border-color: #6c757d;
+    box-shadow: none;
+}
+
+.btn-search {
+    background-color: #495057;
+    color: #ffffff;
+    border: none;
+}
+
+.btn-search:hover {
+    background-color: #6c757d;
+}
+
+/* ============================= Base template ============================ */
+
+/* Navbar styling */
+.navbar {
+    background-color: #212529;
+    border-bottom: 2px solid gold;
+    /* Adds a luxurious touch */
+}
+
+.navbar-brand {
+    color: gold;
+    font-family: 'Cursive', serif;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.navbar-brand:hover {
+    color: #f5c518;
+}
+
+.nav-link {
+    color: #ffffff;
+    font-size: 1rem;
+}
+
+.nav-link:hover {
+    color: gold;
+}
+
+.greeting-text {
+    color: #ffffff;
+    margin-right: 10px;
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.btn-logout {
+    background-color: gold;
+    color: #212529;
+    font-weight: bold;
+    border: none;
+    transition: background-color 0.3s ease;
+}
+
+.btn-logout:hover {
+    background-color: #f5c518;
+}
+
+/* Extra styling for a luxury look */
+.navbar {
+    padding: 0.8rem 1rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* ====================== Billing section ==================== */
+/* Ensure consistent spacing */
+.parameter,
+.separator,
+.value {
+    vertical-align: top;
+}
+
+/* Keep space reserved for optional rows */
+#optionalDetails {
+    visibility: hidden;
+    height: 0;
+    /* Set height to 0 when hidden */
+}
+
+#optionalDetails.visible {
+    visibility: visible;
+    /* Show it when toggled */
+    height: auto;
+}
+
+#toggleDetailsButton,
+#printButton,
+#updateButton,
+#backButton,
+#saveButton,
+#deleteButton,
+#backTodetails,
+#updateTodb,
+#deleteItem {
+    width: 100%;
+    height: 50px;
+    padding: 0px;
+    margin: 0px;
+}
+
+#jewelDetailsSection, #jewelUpdateSection {
+    margin-top: 100px;
+    margin-left: 50px;
+    margin-bottom: 100px;
+    border: 1px solid gold;
+    border-radius: 20px;
+}
+
+#operation_btn_section {
+    margin: 20px;
+    background-color: gray;
+}
+
+#billing_chart_section {
+    margin-top: 100px;
+    height: 73%;
+}

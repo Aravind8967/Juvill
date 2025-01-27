@@ -1,0 +1,46 @@
+--> ssh -i ~/.ssh/gcp_vm juvill015@34.42.41.66
+--> ssh -i GCP/gcp_vm juvill015@34.42.41.66
+
+
+gcp connection command 
+    --> ssh -i gcp_vm juvill015@34.42.41.66
+
+gcp server project path
+    --> cd /home/juvill015/juvill
+
+command to transfer all the files to the server
+    --> scp -i GCP/gcp_vm -r * juvill015@34.42.41.66:/home/juvill015/juvill
+
+command to run the app on gunicorn
+    --> gunicorn --bind 0.0.0.0:5000 wsgi:app
+
+================== juvill.service file for gunicorn arrengment ==========================
+
+[Unit]
+Description=Gunicorn instance to serve myflaskapp
+After=network.target
+
+[Service]
+User=juvill015
+Group=www-data
+WorkingDirectory=/home/juvill015/juvill/
+Environment="PATH=/home/juvill015/venv/bin/"
+
+ExecStart=/home/juvill015/venv/bin/gunicorn --workers 3 --bind unix:juvill.sock -m 007 wsig:app
+
+[Install]
+WantedBy=multi-user.target
+
+==================================================================================================================
+
+================== Nginx configuration ============================================
+
+server {
+    listen 80;
+    server_name 34.42.41.66;
+
+    location / {
+        include proxy_params;
+        proxy_pass http://unix:/home/juvill015/juvill/juvill.sock;
+    }
+}
