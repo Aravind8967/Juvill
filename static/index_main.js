@@ -2,15 +2,19 @@ google.charts.load('current', { 'packages': ['corechart'] });
 google.charts.setOnLoadCallback(drawChart);
 window.addEventListener("load", populateTicker);
 const price_chart_btn = document.getElementById("price_chart_btn");
+const price_table_section = document.getElementById("price_table_section");
+const all_inventory_btn = document.getElementById("all_inventory_btn");
+const all_inventory_section = document.getElementById("all_inventory_section")
 const insertButton = document.getElementById("insertJewelButton");
 const formBlock = document.getElementById("formBlock");
-const price_table_section = document.getElementById("price_table_section");
 let toggleDetailsFlag = true;
 const base_url = 'http://127.0.0.1/'
 
+// ====================== price chart section ==========================
 price_chart_btn.addEventListener("click", function (e) {
     e.stopPropagation(); // Prevent click from propagating to the document
     price_table_section.style.display = (price_table_section.style.display === "none" || price_table_section.style.display === "") ? "block" : "none";
+    all_inventory_section.style.display = "none"
 });
 
 document.addEventListener("click", function (e) {
@@ -19,6 +23,141 @@ document.addEventListener("click", function (e) {
     }
 });
 
+// ======================= All inventory section =========================
+
+all_inventory_btn.addEventListener("click", function (e) {
+    e.stopPropagation(); // Prevent click from propagating to the document
+    all_inventory_section.style.display = (all_inventory_section.style.display === "none" || all_inventory_section.style.display === "") ? "block" : "none";
+    price_table_section.style.display = "none"
+});
+
+document.addEventListener("click", function (e) {
+    if (!all_inventory_section.contains(e.target) && e.target !== all_inventory_btn) {
+        all_inventory_section.style.display = "none";
+    }
+});
+
+
+// ========================= All inventory section ========================
+// Jewelry data fetched from your backend
+const jewelryData = [
+    {
+        j_id: 21,
+        j_name: "Necklace",
+        j_material: "Gold",
+        j_purity: "24K",
+        j_weight: 10.0,
+        j_westage: 5.0,
+        j_making_charge: 2.0,
+        j_price: 50000.0,
+        j_image: "necklace.png"
+    },
+    {
+        j_id: 22,
+        j_name: "Ring",
+        j_material: "Gold",
+        j_purity: "18K",
+        j_weight: 5.0,
+        j_westage: 6.0,
+        j_making_charge: 3.0,
+        j_price: 25000.0,
+        j_image: "ring.png"
+    },
+    {
+        j_id: 23,
+        j_name: "Chain",
+        j_material: "Silver",
+        j_purity: "22K",
+        j_weight: 8.0,
+        j_westage: 4.0,
+        j_making_charge: 2.5,
+        j_price: 30000.0,
+        j_image: "chain.png"
+    },
+    {
+        j_id: 23,
+        j_name: "Chain",
+        j_material: "Silver",
+        j_purity: "22K",
+        j_weight: 8.0,
+        j_westage: 4.0,
+        j_making_charge: 2.5,
+        j_price: 30000.0,
+        j_image: "chain.png"
+    },
+    {
+        j_id: 23,
+        j_name: "Chain",
+        j_material: "Silver",
+        j_purity: "22K",
+        j_weight: 8.0,
+        j_westage: 4.0,
+        j_making_charge: 2.5,
+        j_price: 30000.0,
+        j_image: "chain.png"
+    },
+    {
+        j_id: 23,
+        j_name: "Chain",
+        j_material: "Silver",
+        j_purity: "22K",
+        j_weight: 8.0,
+        j_westage: 4.0,
+        j_making_charge: 2.5,
+        j_price: 30000.0,
+        j_image: "chain.png"
+    }
+];
+
+// Populate the cards container
+const cardsContainer = document.getElementById("cards-container");
+
+jewelryData.forEach(jewel => {
+    const card = document.createElement("div");
+    card.classList.add("card");
+    card.classList.add(jewel.j_material.toLowerCase()); // Add class based on material
+
+    card.innerHTML = `
+        <div class="card-inner">
+            <!-- Front -->
+            <div class="card-front">
+                <div class="edit-btn" onclick="editJewel(${jewel.j_id})">&#9998;</div>
+                <div class="delete-btn" onclick="deleteJewel(${jewel.j_id})">&#128465;</div>
+                <div class="card-title">${jewel.j_name}</div>
+                <div class="card-info">${jewel.j_weight} Grams | ${jewel.j_purity}</div>
+                <div class="price">Rs. ${jewel.j_price.toFixed(2)}</div>
+            </div>
+            <!-- Back -->
+            <div class="card-back">
+                <img src="${jewel.j_image}" alt="${jewel.j_name}">
+            </div>
+        </div>
+    `;
+
+    // Add flip functionality when clicking on card section
+    card.querySelector(".card-front").addEventListener("click", () => {
+        card.querySelector(".card-inner").style.transform = "rotateY(180deg)";
+    });
+
+    card.querySelector(".card-back").addEventListener("click", () => {
+        card.querySelector(".card-inner").style.transform = "rotateY(0deg)";
+    });
+
+    cardsContainer.appendChild(card);
+});
+
+// Edit functionality
+function editJewel(j_id) {
+    alert(`Edit Jewel with ID: ${j_id}`);
+}
+
+// Delete functionality
+function deleteJewel(j_id) {
+    alert(`Delete Jewel with ID: ${j_id}`);
+}
+
+
+// =========================== insert section ==============================
 // Show/hide the form when the button is clicked
 insertButton.addEventListener("click", function (e) {
     e.stopPropagation(); // Prevent click from propagating to the document

@@ -5,7 +5,7 @@
 <div class="row" id="top_bar_section">
     <div class="col-sm-6">
         <div class="row" id="p_i_btn_section">
-            <button id="price_chart_btn"type="button" class="btn btn-success">Price Chart</button>
+            <button id="price_chart_btn" type="button" class="btn btn-success">Price Chart</button>
             <button id="all_inventory_btn" type="button" class="btn btn-success">Inventory</button>
         </div>
         <div class="row">
@@ -92,7 +92,8 @@
     <div class="col-sm-6">
         <div class="d-flex justify-content-center mt-4">
             <div class="input-group" style="max-width: 500px;" id="search_bar">
-                <input type="number" id="jewel_tag" class="form-control" placeholder="Enter Jewel Tag Number" aria-label="Search">
+                <input type="number" id="jewel_tag" class="form-control" placeholder="Enter Jewel Tag Number"
+                    aria-label="Search">
                 <button id="searchButton" class="btn btn-search" onclick="get_jewel('{{data.user.id}}')">
                     <i class="bi bi-search"></i> <!-- Bootstrap Search Icon -->
                 </button>
@@ -100,5 +101,19 @@
         </div>
     </div>
 </div>
-<div></div>
+<div class="row" style="margin-top: 1rem;">
+    <div class="col-sm-8">
+        <div class="row">
+            <div id="all_inventory_section" style="display: block;">
+                <div class="container">
+                    <h1>Jewelry Collection</h1>
+                    <div class="cards-container" id="cards-container"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-4" style="border: 1px white solid;">
+        <h5>insert</h5>
+    </div>
+</div>
 {% endblock body %}
