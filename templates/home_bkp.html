@@ -166,12 +166,14 @@
         </div>
     </div>
     <div class="row">
-        <!-- Jewel Details Section -->
         <div class="col-sm-4">
-            <div id="jewelDetails" class="border p-3 rounded shadow bg-dark text-light" style="display: block;">
+            <!-- Jewel Details Section -->
+
+            <div id="jewelDetailsSection" class="border p-3 rounded shadow bg-dark text-light" style="display: none;">
                 <h4 class="text-center mb-4">Jewel Details</h4>
                 <hr>
                 <table class="table table-borderless text-light">
+                    <p id="jewel_id" style="font-size: 60px; display: none;"></p>
                     <tbody>
                         <tr>
                             <td class="parameter">Tag Number</td>
@@ -227,19 +229,103 @@
                 </table>
                 <div class="row">
                     <div class="col-sm" style="margin-top: 0px; float: left;">
-                        <button id="toggleDetailsButton" class="btn btn-warning">Toggle</button>
+                        <button id="toggleDetailsButton" class="btn btn-warning" onclick="toggle_btn()">Toggle</button>
                     </div>
                     <div class="col-sm" style="margin-top: 0px; float: left;">
-                        <button id="printButton" class="btn btn-success" onclick="print_btn()">Print</button>
+                        <button id="printButton" class="btn btn-success" onclick="print_bill()">Print</button>
                     </div>
                     <div class="col-sm">
-                        <button id="update_inventory" class="btn btn-custom" style="background-color: rgb(68, 68, 189);">Update</button>
+                        <button id="updateButton" class="btn btn-custom" style="background-color: rgb(68, 68, 189);" onclick="update_btn(document.getElementById('jewel_id').textContent)">Update</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Jewel Details Update section -->
+
+            <div id="jewelUpdateSection" class="border p-3 rounded shadow bg-dark text-light" style="display: none;">
+                <h4 class="text-center mb-4">Update Jewel details</h4>
+                <hr>
+                <table class="table table-borderless text-light">
+                    <tbody>
+                        <tr>
+                            <td class="parameter">Tag Number</td>
+                            <td class="separator">:</td>
+                            <td class="value" ><input id="uj_tag" type="number" required></td>
+                        </tr>
+                        <tr>
+                            <td class="parameter">Name</td>
+                            <td class="separator">:</td>
+                            <td class="value"><input id="uj_name" type="text" required></td>
+                        </tr>
+                        <tr>
+                            <td class="parameter">Material</td>
+                            <td class="separator">:</td>
+                            <td class="value">
+                                <select class="form-select" id="uj_material" required>
+                                    <option value="" disabled selected>Select Material</option>
+                                    <option value="gold">Gold</option>
+                                    <option value="silver">Silver</option>
+                                    <!-- <option value="Platinum">Platinum</option> -->
+                                    <!-- <option value="Diamond">Diamond</option> -->
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="parameter">Purity</td>
+                            <td class="separator">:</td>
+                            <td class="value">
+                                <select class="form-select" id="uj_purity" required>
+                                    <option value="" disabled selected>Select Purity</option>
+                                    <option value="24k">24K</option>
+                                    <option value="22k">22K</option>
+                                    <option value="18k">18K</option>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="parameter">Weight</td>
+                            <td class="separator">:</td>
+                            <td class="value"><input id="uj_weight" type="number" step="0.01" required></td>
+                        </tr>
+                        <tr>
+                            <td class="parameter">Westage</td>
+                            <td class="separator">:</td>
+                            <td class="value"><input id="uj_westage" type="number" step="0.01" required></td>
+                        </tr>
+                        <tr>
+                            <td class="parameter">Making Charge</td>
+                            <td class="separator">:</td>
+                            <td class="value"><input id="uj_making_charge" type="number" step="0.01" required></td>
+                        </tr>
+                        <tr>
+                            <td class="parameter">GST</td>
+                            <td class="separator">:</td>
+                            <td class="value"><input id="uj_gst" type="number" step="0.01" required></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="row">
+                    <div class="col-sm" style="margin-top: 0px; float: left;">
+                        <button id="backTodetails" class="btn btn-warning" onclick="back_to_details('{{data.user.id}}')">Back</button>
+                    </div>
+                    <div class="col-sm" style="margin-top: 0px; float: left;">
+                        <button id="updateTodb" class="btn btn-success" onclick="update_to_db(document.getElementById('jewel_id').textContent, '{{data.user.id}}')">Save</button>
+                    </div>
+                    <div class="col-sm">
+                        <button id="deleteItem" class="btn btn-danger" onclick="delete_jewel(document.getElementById('jewel_id').textContent)">Delete</button>
                     </div>
                 </div>
             </div>
         </div>
+        <div class="col-sm-1">
+            <!-- Middle section -->
+        </div>
+        <div class="col-sm-6">
+            <!-- Billing Chart section -->
+            <div id="billing_chart_section"  class="border p-3 rounded shadow bg-dark text-light" style="display: none;">
+                <h4 h4 class="text-center mb-4">Billing Chart</h4>
+                <hr>
+                <div id="bill_chart" style="width: 900px; height: 450px;"></div>
+            </div>
+        </div>
     </div>    
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">    
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="{{url_for('static', filename='index_main.js')}}"></script>
 {% endblock body %}
