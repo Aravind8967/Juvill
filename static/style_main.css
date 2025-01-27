@@ -54,7 +54,43 @@ hr {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
+/* =============== floating bar ================== */
+#floating-ticker {
+    margin-top: 0.5rem;
+    position: fixed;
+    top: 70px; /* Place it just below the navbar */
+    width: 100%;
+    color: white;
+    font-size: 18px;
+    font-family: 'Arial', sans-serif;
+    overflow: hidden;
+    white-space: nowrap;
+    padding: 10px 0;
+}
 
+#ticker-wrapper {
+    display: inline-block;
+    animation: scroll-left 30s linear infinite;
+    padding-left: 100%;
+}
+
+#ticker-content {
+    display: inline-block;
+}
+
+#floating-ticker:hover #ticker-wrapper {
+    animation-play-state: paused;
+}
+
+/* Scrolling animation */
+@keyframes scroll-left {
+    from {
+        transform: translateX(100%);
+    }
+    to {
+        transform: translateX(-100%);
+    }
+}
 /* ======================= Price table section ======================== */
 #price_table_section {
     margin-top: 2rem;

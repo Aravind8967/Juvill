@@ -153,5 +153,5 @@ if __name__ == '__main__':
         'j_amount' : 2000, 
         'j_weight' : 2.5
     }
-    data = inventory.get_by_jewel_id(1)
+    data = inventory.get_all_by_userid(7)
     print(data)

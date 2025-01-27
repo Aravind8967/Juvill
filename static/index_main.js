@@ -1,5 +1,6 @@
 google.charts.load('current', { 'packages': ['corechart'] });
 google.charts.setOnLoadCallback(drawChart);
+window.addEventListener("load", populateTicker);
 const price_chart_btn = document.getElementById("price_chart_btn");
 const insertButton = document.getElementById("insertJewelButton");
 const formBlock = document.getElementById("formBlock");
@@ -30,6 +31,24 @@ document.addEventListener("click", function (e) {
         formBlock.style.display = "none";
     }
 });
+
+function populateTicker() {
+    const tableRows = document.querySelectorAll("#price_table_section table tbody tr");
+    const tickerContent = document.getElementById("ticker-content");
+
+    let tickerHTML = "";
+
+    tableRows.forEach(row => {
+        const material = row.cells[1].textContent.trim();
+        const purity = row.cells[3].textContent.trim();
+        const price = row.cells[5].querySelector("input").value;
+
+        tickerHTML += `<span style="margin-right: 70px;">${material} (${purity}): Rs. ${price}</span>`;
+    });
+
+    // Duplicate the content to ensure seamless looping
+    tickerContent.innerHTML = tickerHTML + tickerHTML;
+}
 
 async function insert_new_jewel(u_id) {
     // Collect data from the form
