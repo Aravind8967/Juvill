@@ -104,7 +104,16 @@ def get_jewel_id(j_id):
         return jsonify(get_jewel)
     except Exception as e:
         return jsonify({'status':500, 'error':str(e)})
-
+    
+@app.route('/get_all_data_by_id/<int:u_id>', methods=['GET'])
+def get_all_data_by_id(u_id):
+    try:
+        all_data = inventory.get_all_by_userid(u_id)
+        print("all data fetched")
+        return jsonify(all_data)
+    except Exception as e:
+        return jsonify({'status':500, 'error':str(e)})
+    
 @app.route('/update_jewel_id/<int:j_id>', methods=['POST'])
 def update_jewel_id(j_id):
     try:

@@ -40,120 +40,82 @@ document.addEventListener("click", function (e) {
 
 // ========================= All inventory section ========================
 // Jewelry data fetched from your backend
-const jewelryData = [
-    {
-        j_id: 21,
-        j_name: "Necklace",
-        j_material: "Gold",
-        j_purity: "24K",
-        j_weight: 10.0,
-        j_westage: 5.0,
-        j_making_charge: 2.0,
-        j_price: 50000.0,
-        j_image: "necklace.png"
-    },
-    {
-        j_id: 22,
-        j_name: "Ring",
-        j_material: "Gold",
-        j_purity: "18K",
-        j_weight: 5.0,
-        j_westage: 6.0,
-        j_making_charge: 3.0,
-        j_price: 25000.0,
-        j_image: "ring.png"
-    },
-    {
-        j_id: 23,
-        j_name: "Chain",
-        j_material: "Silver",
-        j_purity: "22K",
-        j_weight: 8.0,
-        j_westage: 4.0,
-        j_making_charge: 2.5,
-        j_price: 30000.0,
-        j_image: "chain.png"
-    },
-    {
-        j_id: 23,
-        j_name: "Chain",
-        j_material: "Silver",
-        j_purity: "22K",
-        j_weight: 8.0,
-        j_westage: 4.0,
-        j_making_charge: 2.5,
-        j_price: 30000.0,
-        j_image: "chain.png"
-    },
-    {
-        j_id: 23,
-        j_name: "Chain",
-        j_material: "Silver",
-        j_purity: "22K",
-        j_weight: 8.0,
-        j_westage: 4.0,
-        j_making_charge: 2.5,
-        j_price: 30000.0,
-        j_image: "chain.png"
-    },
-    {
-        j_id: 23,
-        j_name: "Chain",
-        j_material: "Silver",
-        j_purity: "22K",
-        j_weight: 8.0,
-        j_westage: 4.0,
-        j_making_charge: 2.5,
-        j_price: 30000.0,
-        j_image: "chain.png"
+async function get_all_inventory(u_id) {
+    const response = await fetch(`/get_all_data_by_id/${u_id}`)
+    const result = await response.json();
+    if (response.ok) {
+        var all_data = result.data;
+        if (all_data.length > 0) {
+            const jewelryData = all_data;
+            const cardsContainer = document.getElementById("cards-container");
+            cardsContainer.innerHTML = ''; // Clear existing cards
+
+            jewelryData.forEach(jewel => {
+                const cardWrapper = document.createElement("div");
+                cardWrapper.classList.add("j-card");
+                var j_material_price = get_price(jewel.j_material, jewel.j_purity);
+                console.log(jewel.j_material, jewel.j_purity)
+                var j_material_cost = j_material_price * jewel.j_weight;
+                var gst = (j_material_cost * jewel.j_gst) / 100;
+                var westage = (j_material_cost * jewel.j_westage) / 100;
+                var making_charge = (j_material_cost * jewel.j_making_charge) / 100;
+                // console.log({'j_material_cost' : j_material_cost, 'gst':gst, 'westage':westage, 'making_charge' : making_charge})
+                var j_price = (j_material_cost + gst + westage + making_charge)
+
+                // Set the inner HTML of the card
+                cardWrapper.innerHTML = `
+                    <div class="j-card-inner">
+                        <!-- Front -->
+                        <div class="j-card-front">
+                            <div class="edit-btn" onclick="editJewel(${jewel.j_id})">&#9998;</div>
+                            <div class="delete-btn" onclick="deleteJewel(${jewel.j_id})">&#128465;</div>
+                            <div class="j-card-tag">${jewel.j_tag}</div>
+                            <div class="j-card-title">${jewel.j_name}</div>
+                            <div class="j-card-info-section ${jewel.j_material.toLowerCase()}">
+                                <div class="j-card-weight">${jewel.j_weight} Grams</div>
+                                <div class="j-card-purity">${jewel.j_purity} | ${jewel.j_material}</div>
+                            </div>
+                            <div class="row" style="margin-top: 20px;">
+                                <div class="col-sm-6">
+                                    <div style="text-align: center;">Westage</div>
+                                    <div style="text-align: center;">${jewel.j_westage} %</div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div style="text-align: center;">Making</div>
+                                    <div style="text-align: center;">${jewel.j_making_charge} %</div>
+                                </div>
+                            </div>
+                            <div class="j-card-price" style="margin-top: 30px;">Rs. ${j_price}</div>                   
+                        </div>
+                    </div>
+                `;
+
+                // Append the card to the container
+                cardsContainer.appendChild(cardWrapper);
+            });
+
+        }
+        else {
+            alert(`Inventry is empty`);
+        }
     }
-];
 
-// Populate the cards container
-const cardsContainer = document.getElementById("cards-container");
+    // Edit functionality
+    function editJewel(j_id) {
+        alert(`Edit Jewel with ID: ${j_id}`);
+    }
 
-jewelryData.forEach(jewel => {
-    const card = document.createElement("div");
-    card.classList.add("card");
-    card.classList.add(jewel.j_material.toLowerCase()); // Add class based on material
+    // Delete functionality
+    function deleteJewel(j_id) {
+        alert(`Delete Jewel with ID: ${j_id}`);
+    }
 
-    card.innerHTML = `
-        <div class="card-inner">
-            <!-- Front -->
-            <div class="card-front">
-                <div class="edit-btn" onclick="editJewel(${jewel.j_id})">&#9998;</div>
-                <div class="delete-btn" onclick="deleteJewel(${jewel.j_id})">&#128465;</div>
-                <div class="card-title">${jewel.j_name}</div>
-                <div class="card-info">${jewel.j_weight} Grams | ${jewel.j_purity}</div>
-                <div class="price">Rs. ${jewel.j_price.toFixed(2)}</div>
-            </div>
-            <!-- Back -->
-            <div class="card-back">
-                <img src="${jewel.j_image}" alt="${jewel.j_name}">
-            </div>
-        </div>
-    `;
-
-    // Add flip functionality when clicking on card section
-    card.querySelector(".card-front").addEventListener("click", () => {
-        card.querySelector(".card-inner").style.transform = "rotateY(180deg)";
-    });
-
-    card.querySelector(".card-back").addEventListener("click", () => {
-        card.querySelector(".card-inner").style.transform = "rotateY(0deg)";
-    });
-
-    cardsContainer.appendChild(card);
-});
-
-// Edit functionality
-function editJewel(j_id) {
-    alert(`Edit Jewel with ID: ${j_id}`);
 }
 
-// Delete functionality
-function deleteJewel(j_id) {
-    alert(`Delete Jewel with ID: ${j_id}`);
+function get_price(j_material, j_purity) {
+    console.log(`${j_material}_price_${j_purity}`);
+    let material_price = document.getElementById(`${j_material}_price_${j_purity}`).value
+    return Number(material_price)
 }
 
 
@@ -456,12 +418,6 @@ async function delete_jewel(j_id) {
         console.error('Error deleting jewel:', error);
         alert('An error occurred while trying to delete the jewel.');
     }
-}
-
-
-function get_price(j_material, j_purity) {
-    let material_price = document.getElementById(`${j_material}_price_${j_purity}`).value
-    return Number(material_price)
 }
 
 async function total_amt(data) {

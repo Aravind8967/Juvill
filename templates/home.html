@@ -6,7 +6,8 @@
     <div class="col-sm-6">
         <div class="row" id="p_i_btn_section">
             <button id="price_chart_btn" type="button" class="btn btn-success">Price Chart</button>
-            <button id="all_inventory_btn" type="button" class="btn btn-success">Inventory</button>
+            <button id="all_inventory_btn" type="button" class="btn btn-success"
+                onclick="get_all_inventory('{{data.user.id}}')">Inventory</button>
         </div>
         <div class="row">
             <div class="col-sm-7" id="price_table_section" style="display: none;">
@@ -107,7 +108,63 @@
             <div id="all_inventory_section" style="display: block;">
                 <div class="container">
                     <h1>Jewelry Collection</h1>
-                    <div class="cards-container" id="cards-container"></div>
+                    <hr>
+                    <div class="cards-container" id="cards-container">
+                        <div class="j-card">
+                            <!-- Placeholder Card for Trial -->
+                            <div class="j-card-inner">
+                                <!-- Front -->
+                                <div class="j-card-front">
+                                    <div class="edit-btn" onclick="editJewel(jewel.j_id)">&#9998;</div>
+                                    <div class="delete-btn" onclick="deleteJewel(jewel.j_id)">&#128465;</div>
+                                    <div class="j-card-tag">101</div>
+                                    <div class="j-card-title">Ring</div>
+                                    <div class="j-card-info-section gold">
+                                        <div class="j-card-weight">10 Grams</div>
+                                        <div class="j-card-purity">24k | Gold</div>
+                                    </div>
+                                    <div class="row" style="margin-top: 20px;">
+                                        <div class="col-sm-6">
+                                            <div style="text-align: center;">Westage</div>
+                                            <div style="text-align: center;">6%</div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div style="text-align: center;">Making</div>
+                                            <div style="text-align: center;">6%</div>
+                                        </div>
+                                    </div>
+                                    <div class="j-card-price" style="margin-top: 30px;">Rs. XXXXX.XX</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="j-card">
+                            <!-- Placeholder Card for Trial -->
+                            <div class="j-card-inner">
+                                <!-- Front -->
+                                <div class="j-card-front">
+                                    <div class="edit-btn" onclick="editJewel(jewel.j_id)">&#9998;</div>
+                                    <div class="delete-btn" onclick="deleteJewel(jewel.j_id)">&#128465;</div>
+                                    <div class="j-card-tag">101</div>
+                                    <div class="j-card-title">Ring</div>
+                                    <div class="j-card-info-section gold">
+                                        <div class="j-card-weight">10 Grams</div>
+                                        <div class="j-card-purity">24k | Gold</div>
+                                    </div>
+                                    <div class="row" style="margin-top: 20px;">
+                                        <div class="col-sm-6">
+                                            <div style="text-align: center;">Westage</div>
+                                            <div style="text-align: center;">6%</div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div style="text-align: center;">Making</div>
+                                            <div style="text-align: center;">6%</div>
+                                        </div>
+                                    </div>
+                                    <div class="j-card-price" style="margin-top: 30px;">Rs. XXXXX.XX</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

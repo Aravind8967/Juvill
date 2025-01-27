@@ -154,4 +154,5 @@ if __name__ == '__main__':
         'j_weight' : 2.5
     }
     data = inventory.get_all_by_userid(7)
-    print(data)
+    for i in data['data']:
+        print(i)
