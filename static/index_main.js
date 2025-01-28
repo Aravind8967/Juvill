@@ -7,6 +7,8 @@ const all_inventory_btn = document.getElementById("all_inventory_btn");
 const all_inventory_section = document.getElementById("all_inventory_section")
 const insertButton = document.getElementById("insert_btn_section");
 const formBlock = document.getElementById("formBlock");
+const edit_btn = document.getElementsByClassName("edit-btn")
+const jewelUpdateSection = document.getElementById("jewelUpdateSection");
 let toggleDetailsFlag = true;
 const base_url = 'http://127.0.0.1/'
 
@@ -20,6 +22,7 @@ price_chart_btn.addEventListener("click", function (e) {
 document.addEventListener("click", function (e) {
     if (!price_table_section.contains(e.target) && e.target !== price_chart_btn) {
         price_table_section.style.display = "none";
+        insertButton.style.display = 'block';
     }
 });
 
@@ -111,8 +114,73 @@ async function get_all_inventory(u_id) {
 }
 
 // Edit functionality
-function editJewel(j_id) {
-    alert(`Edit Jewel with ID: ${j_id}`);
+async function editJewel(j_id) {
+    console.log('edit btn pressed j_id : ', j_id);
+    const insert_btn_section = document.getElementById("insert_btn_section");
+    const form_block = document.getElementById('formBlock');
+    const jewel_update = document.getElementById('jewelUpdateSection');
+   
+    const response = await fetch(`/get_jewel_id/${j_id}`, { method: 'GET' })
+    const result = await response.json();
+    if (response.ok) {
+        let j_data = result.data;
+        if (j_data.length > 0) {
+            console.log(j_data[0])
+            let raw_data = j_data[0]
+            document.getElementById('uj_tag').value = raw_data.j_tag;
+            document.getElementById('uj_name').value = raw_data.j_name;
+            document.getElementById('uj_material').value = raw_data.j_material;
+            document.getElementById('uj_purity').value = raw_data.j_purity;
+            document.getElementById('uj_weight').value = raw_data.j_weight;
+            document.getElementById('uj_westage').value = raw_data.j_westage;
+            document.getElementById('uj_making_charge').value = raw_data.j_making_charge;
+            document.getElementById('uj_gst').value = raw_data.j_gst;
+        }
+        else {
+            alert(`Not able to find the Jewel with ${j_id}`);
+        }
+    }
+    jewel_update.style.display = 'block'
+    insert_btn_section.style.display = 'none';
+    form_block.style.display = 'none';
+}
+
+
+async function update_to_db(j_id, u_id) {
+    let data = {
+        'u_id': u_id,
+        'j_tag': document.getElementById('uj_tag').value,
+        'j_name': document.getElementById('uj_name').value,
+        'j_material': document.getElementById('uj_material').value,
+        'j_purity': document.getElementById('uj_purity').value,
+        'j_weight': document.getElementById('uj_weight').value,
+        'j_westage': document.getElementById('uj_westage').value,
+        'j_making_charge': document.getElementById('uj_making_charge').value,
+        'j_gst': document.getElementById('uj_gst').value,
+    };
+    console.log({ 'update_to_db': data, 'j_id': Number(j_id) })
+    try {
+        const response = await fetch(`/update_jewel_id/${j_id}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data)
+        });
+        const result = await response.json();
+        if (response.ok) {
+            console.log(result);
+            alert(result.data);
+            location.reload();
+            
+        } else {
+            console.error('Error:', result);
+            alert('Failed to insert jewelry. Please try again.');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        alert('An error occurred while connecting to the server.');
+    }
 }
 
 // Delete functionality
@@ -414,41 +482,6 @@ async function update_btn(j_id) {
         else {
             alert(`Not able to find the Jewel with ${j_id}`);
         }
-    }
-}
-
-async function update_to_db(j_id, u_id) {
-    let data = {
-        'u_id': u_id,
-        'j_tag': document.getElementById('uj_tag').value,
-        'j_name': document.getElementById('uj_name').value,
-        'j_material': document.getElementById('uj_material').value,
-        'j_purity': document.getElementById('uj_purity').value,
-        'j_weight': document.getElementById('uj_weight').value,
-        'j_westage': document.getElementById('uj_westage').value,
-        'j_making_charge': document.getElementById('uj_making_charge').value,
-        'j_gst': document.getElementById('uj_gst').value,
-    };
-    console.log({ 'update_to_db': data, 'j_id': Number(j_id) })
-    try {
-        const response = await fetch(`/update_jewel_id/${j_id}`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data)
-        });
-        const result = await response.json();
-        if (response.ok) {
-            console.log(result);
-            alert(result.data);
-        } else {
-            console.error('Error:', result);
-            alert('Failed to insert jewelry. Please try again.');
-        }
-    } catch (error) {
-        console.error('Error:', error);
-        alert('An error occurred while connecting to the server.');
     }
 }
 
