@@ -225,7 +225,7 @@ async function get_jewel(u_id) {
             let jewel_data = result.data;
             if (jewel_data.length > 0) {
                 console.log(jewel_data[0]);
-                displayJewelDetails(jewel_data[0]);
+                appendJewelDetails(jewel_data[0])
                 console.log('jewel details displayed sucessfully')
             }
             else {
@@ -240,6 +240,58 @@ async function get_jewel(u_id) {
         alert('An error occurred while connecting to the server.');
     }
 }
+
+function appendJewelDetails(jewel) {
+    // Calculate price details
+    const j_material_price = get_price(jewel.j_material, jewel.j_purity);
+    const j_material_cost = j_material_price * jewel.j_weight;
+    const gst = (j_material_cost * jewel.j_gst) / 100;
+    const westage = (j_material_cost * jewel.j_westage) / 100;
+    const making_charge = (j_material_cost * jewel.j_making_charge) / 100;
+    const j_price = (j_material_cost + gst + westage + making_charge);
+    const cardHTML = `
+        <div class="j-card" onclick="this.classList.toggle('flipped')">
+            <div class="j-card-inner">
+                <!-- Front -->
+                <div class="j-card-front">
+                    <div class="edit-btn" onclick="editJewel(${jewel.j_id})">&#9998;</div>
+                    <div class="delete-btn" onclick="deleteJewel(${jewel.j_id})">&#128465;</div>
+                    <p id="jewel_id" style="font-size: 60px; display: none;">${jewel.j_id}</p>
+                    <p id="jewelMaterial" style="font-size: 60px; display: none;">${jewel.j_material}</p>
+                    <p id="jewelMaterialprice" style="font-size: 60px; display: none;">${jewel.j_making_charge}</p>
+                    <p id="jewelGST" style="font-size: 60px; display: none;">${jewel.j_gst}</p>
+                    <div class="j-card-tag" id="jewelTag">${jewel.j_tag}</div>
+                    <div class="j-card-title" id="jewelName">${jewel.j_name}</div>
+                    <div class="j-card-info-section ${jewel.j_material}">
+                        <div class="j-card-weight" id="jewelWeight">${jewel.j_weight} Grams</div>
+                        <div class="j-card-purity" id="jewelPurity">${jewel.j_purity} | ${jewel.j_material}</div>
+                    </div>
+                    <div class="row" style="margin-top: 20px;">
+                        <div class="col-sm-6">
+                            <div style="text-align: center;">Westage</div>
+                            <div style="text-align: center;" id="jewelWestage">${jewel.j_westage}%</div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div style="text-align: center;">Making</div>
+                            <div style="text-align: center;" id="jewelMakingCharge">${jewel.j_making_charge}%</div>
+                        </div>
+                    </div>
+                    <div class="j-card-price" style="margin-top: 30px;" id="totalAmt">Rs. ${j_price}</div>
+                </div>
+                <!-- Back -->
+                <div class="j-card-back">
+                    <img src="${jewel.j_image || 'default_img.jpg'}" alt="Image of ${jewel.j_name}" style="width: 100%; height: 100%;">
+                </div>
+            </div>
+        </div>
+    `;
+    // Append the card HTML to the jewelDetailsSection
+    const jewelDetailsSection = document.getElementById("jewelDetailsSection");
+    jewelDetailsSection.innerHTML = ''
+    jewelDetailsSection.style.display = "block"; // Ensure the section is visible
+    jewelDetailsSection.innerHTML += cardHTML; // Append the new card
+}
+
 
 async function displayJewelDetails(data) {
     console.log('calling display jewel details');
@@ -259,8 +311,6 @@ async function displayJewelDetails(data) {
 
     // Show the details section
     document.getElementById('jewelDetailsSection').style.display = 'block';
-    document.getElementById('billing_chart_section').style.display = 'block';
-    drawChart(calculate_amt);
 }
 
 function drawChart(bill_data) {

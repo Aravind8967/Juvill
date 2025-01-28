@@ -2,165 +2,17 @@
 {% block title %} welcome {{data.user.u_name}} {% endblock title%}
 
 {% block body %}
-<div class="row">
-    <!-- =============== Price table section ============================ -->
-    <div class="col-sm-4" id="price_table_section">
-        <h1 style="text-align: center;">Price Table</h1>
-        <div class="table-responsive">
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>Sl no</th>
-                        <th>Material</th>
-                        <th>Color</th>
-                        <th>Purity</th>
-                        <th>Weight</th>
-                        <th>Price</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>Gold</td>
-                        <td>
-                            <div id="gold_box"></div>
-                        </td>
-                        <td>24k</td>
-                        <td>1grm</td>
-                        <td><input id="gold_price_24k" type="number" value="8000"> in Rs.</td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>Gold</td>
-                        <td>
-                            <div id="gold_box"></div>
-                        </td>
-                        <td>22k</td>
-                        <td>1grm</td>
-                        <td><input id="gold_price_22k" type="number" value="7600"> in Rs.</td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td>Gold</td>
-                        <td>
-                            <div id="gold_box"></div>
-                        </td>
-                        <td>18k</td>
-                        <td>1grm</td>
-                        <td><input id="gold_price_18k" type="number" value="6900"> in Rs.</td>
-                    </tr>
-                    <tr>
-                        <td>4</td>
-                        <td>Silver</td>
-                        <td>
-                            <div id="silver_box"></div>
-                        </td>
-                        <td>24k</td>
-                        <td>1grm</td>
-                        <td><input id="silver_price_24k" type="number" value="1000"> in Rs.</td>
-                    </tr>
-                    <tr>
-                        <td>5</td>
-                        <td>Silver</td>
-                        <td>
-                            <div id="silver_box"></div>
-                        </td>
-                        <td>22k</td>
-                        <td>1grm</td>
-                        <td><input id="silver_price_22k" type="number" value="900"> in Rs.</td>
-                    </tr>
-                    <tr>
-                        <td>6</td>
-                        <td>Silver</td>
-                        <td>
-                            <div id="silver_box"></div>
-                        </td>
-                        <td>18k</td>
-                        <td>1grm</td>
-                        <td><input id="silver_price_18k" type="number" value="800"> in Rs.</td>
-                    </tr>
-                </tbody>
-            </table>
+<div class="row" id="top_bar_section">
+    <div class="col-sm-6">
+        <div class="row" id="p_i_btn_section">
+            <button id="price_chart_btn" type="button" class="btn btn-success">Price Chart</button>
+            <button id="all_inventory_btn" type="button" class="btn btn-success"
+                onclick="get_all_inventory('{{data.user.id}}')">Inventory</button>
         </div>
     </div>
-    <div class="col-sm-2">
-        <!-- Empty section -->
-    </div>
-
-    <!-- ===================== New Jewel insert Section ========================= -->
-    <div class="col-sm-4" id="inventory_section">
-        <h1 class="text-center">Jewel Inventory</h1>
-        <!-- Button to Show the Form -->
-        <div class="text-center mt-4">
-            <button id="insertJewelButton" class="btn btn-custom">Insert Jewel</button>
-        </div>
-        <!-- Form Block -->
-        <div id="formBlock" class="form-container mt-4">
-            <h4 class="mb-3">Insert Jewel Details</h4>
-            <form id="jewelForm">
-                <div class="mb-3">
-                    <label for="j_tag" class="form-label">Tag number</label>
-                    <input type="number" class="form-control" id="j_tag" placeholder="Enter jewel name" required>
-                </div>
-                <div class="mb-3">
-                    <label for="j_name" class="form-label">Name</label>
-                    <input type="text" class="form-control" id="j_name" placeholder="Enter jewel name" required>
-                </div>
-                <div class="mb-3">
-                    <label for="j_material" class="form-label">Material</label>
-                    <select class="form-select" id="j_material" required>
-                        <option value="" disabled selected>Select Material</option>
-                        <option value="gold">Gold</option>
-                        <option value="silver">Silver</option>
-                        <!-- <option value="Platinum">Platinum</option> -->
-                        <!-- <option value="Diamond">Diamond</option> -->
-                    </select>
-                </div>
-                <div class="mb-3">
-                    <label for="j_purity" class="form-label">Purity</label>
-                    <select class="form-select" id="j_purity" required>
-                        <option value="" disabled selected>Select Purity</option>
-                        <option value="24k">24K</option>
-                        <option value="22k">22K</option>
-                        <option value="18k">18K</option>
-                        <!-- <option value="14K">14K</option> -->
-                        <!-- <option value="925">925 (Sterling Silver)</option> -->
-                    </select>
-                </div>
-                <div class="mb-3">
-                    <label for="j_weight" class="form-label">Weight (in Grams)</label>
-                    <input type="number" step="0.01" class="form-control" id="j_weight"
-                        placeholder="Enter Weight of Jewel in grams" required>
-                </div>
-                <div class="mb-3">
-                    <label for="j_westage" class="form-label">Westage (in %)</label>
-                    <input type="number" step="0.01" class="form-control" id="j_westage"
-                        placeholder="Enter Westage in %" required>
-                </div>
-                <div class="mb-3">
-                    <label for="j_making_charge" class="form-label">Making Charges (in %)</label>
-                    <input type="number" step="0.01" class="form-control" id="j_making_charge"
-                        placeholder="Enter Making Charges in %" required>
-                </div>
-                <div class="mb-3">
-                    <label for="j_gst" class="form-label">GST (in %)</label>
-                    <input type="number" step="0.01" class="form-control" id="j_gst" placeholder="Enter GST in %"
-                        required>
-                </div>
-                <button onclick="insert_new_jewel('{{data.user.id}}')" class="btn btn-success">Submit</button>
-            </form>
-        </div>
-    </div>
-</div>
-<hr>
-<!-- ===================== Get the Jewel details ========================= -->
-<div class="row">
-    <div class="container mt-5">
-        <h1 class="text-center">Search Jewel Tag</h1>
-
-        <!-- Search Bar with Button -->
+    <div class="col-sm-6">
         <div class="d-flex justify-content-center mt-4">
-            <div class="input-group" style="max-width: 500px;">
+            <div class="input-group" style="max-width: 500px;" id="search_bar">
                 <input type="number" id="jewel_tag" class="form-control" placeholder="Enter Jewel Tag Number"
                     aria-label="Search">
                 <button id="searchButton" class="btn btn-search" onclick="get_jewel('{{data.user.id}}')">
@@ -170,14 +22,161 @@
         </div>
     </div>
 </div>
-<div class="row">
-    <!-- Jewel Details Section -->
-    <div class="col-sm-4">
-        <!-- Jewel Details Section -->
-        <div id="jewelDetailsSection" class="border p-3 rounded shadow bg-dark text-light">
+<div class="row" style="margin-top: 1rem;">
+    <div class="col-sm-8">
+        <div class="row">
+            <div id="all_inventory_section" style="display: none;">
+                <div class="container">
+                    <h1>Jewelry Collection</h1>
+                    <hr>
+                    <div class="cards-container" id="cards-container">
+                        <div class="j-card">
+                            <!-- Placeholder Card for Trial -->
+                            <div class="j-card-inner">
+                                <!-- Front -->
+                                <div class="j-card-front">
+                                    <div class="edit-btn" onclick="editJewel(jewel.j_id)">&#9998;</div>
+                                    <div class="delete-btn" onclick="deleteJewel(jewel.j_id)">&#128465;</div>
+                                    <div class="j-card-tag">101</div>
+                                    <div class="j-card-title">Ring</div>
+                                    <div class="j-card-info-section gold">
+                                        <div class="j-card-weight">10 Grams</div>
+                                        <div class="j-card-purity">24k | Gold</div>
+                                    </div>
+                                    <div class="row" style="margin-top: 20px;">
+                                        <div class="col-sm-6">
+                                            <div style="text-align: center;">Westage</div>
+                                            <div style="text-align: center;">6%</div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div style="text-align: center;">Making</div>
+                                            <div style="text-align: center;">6%</div>
+                                        </div>
+                                    </div>
+                                    <div class="j-card-price" style="margin-top: 30px;">Rs. XXXXX.XX</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="j-card">
+                            <!-- Placeholder Card for Trial -->
+                            <div class="j-card-inner">
+                                <!-- Front -->
+                                <div class="j-card-front">
+                                    <div class="edit-btn" onclick="editJewel(jewel.j_id)">&#9998;</div>
+                                    <div class="delete-btn" onclick="deleteJewel(jewel.j_id)">&#128465;</div>
+                                    <div class="j-card-tag">101</div>
+                                    <div class="j-card-title">Ring</div>
+                                    <div class="j-card-info-section gold">
+                                        <div class="j-card-weight">10 Grams</div>
+                                        <div class="j-card-purity">24k | Gold</div>
+                                    </div>
+                                    <div class="row" style="margin-top: 20px;">
+                                        <div class="col-sm-6">
+                                            <div style="text-align: center;">Westage</div>
+                                            <div style="text-align: center;">6%</div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div style="text-align: center;">Making</div>
+                                            <div style="text-align: center;">6%</div>
+                                        </div>
+                                    </div>
+                                    <div class="j-card-price" style="margin-top: 30px;">Rs. XXXXX.XX</div>
+                                </div>
+                                <!-- Back -->
+                                <div class="j-card-back">
+                                    <img src="" alt="default_img">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-7" id="price_table_section" style="display: none;">
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Sl no</th>
+                                <th>Material</th>
+                                <th>Color</th>
+                                <th>Purity</th>
+                                <th>Weight</th>
+                                <th>Price</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>Gold</td>
+                                <td>
+                                    <div id="gold_box"></div>
+                                </td>
+                                <td>24k</td>
+                                <td>1grm</td>
+                                <td><input id="gold_price_24k" type="number" value="8000"> in Rs.</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>Gold</td>
+                                <td>
+                                    <div id="gold_box"></div>
+                                </td>
+                                <td>22k</td>
+                                <td>1grm</td>
+                                <td><input id="gold_price_22k" type="number" value="7600"> in Rs.</td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>Gold</td>
+                                <td>
+                                    <div id="gold_box"></div>
+                                </td>
+                                <td>18k</td>
+                                <td>1grm</td>
+                                <td><input id="gold_price_18k" type="number" value="6900"> in Rs.</td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td>Silver</td>
+                                <td>
+                                    <div id="silver_box"></div>
+                                </td>
+                                <td>24k</td>
+                                <td>1grm</td>
+                                <td><input id="silver_price_24k" type="number" value="1000"> in Rs.</td>
+                            </tr>
+                            <tr>
+                                <td>5</td>
+                                <td>Silver</td>
+                                <td>
+                                    <div id="silver_box"></div>
+                                </td>
+                                <td>22k</td>
+                                <td>1grm</td>
+                                <td><input id="silver_price_22k" type="number" value="900"> in Rs.</td>
+                            </tr>
+                            <tr>
+                                <td>6</td>
+                                <td>Silver</td>
+                                <td>
+                                    <div id="silver_box"></div>
+                                </td>
+                                <td>18k</td>
+                                <td>1grm</td>
+                                <td><input id="silver_price_18k" type="number" value="800"> in Rs.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div id="jewelDetailsSection" class="border p-3 rounded shadow bg-dark text-light" style="display: none;">
             <h4 class="text-center mb-4">Jewel Details</h4>
             <hr>
             <table class="table table-borderless text-light">
+                <p id="jewel_id" style="font-size: 60px; display: none;"></p>
                 <tbody>
                     <tr>
                         <td class="parameter">Tag Number</td>
@@ -205,21 +204,21 @@
                         <td class="value" id="jewelWeight"></td>
                     </tr>
                     <tr>
-                        <td class="parameter">Material Price</td>
+                        <td class="parameter">Material Price </td>
                         <td class="separator">:</td>
                         <td class="value" id="jewelMaterialprice"></td>
                     </tr>
-                    <tr class="optionalDetails">
+                    <tr id="optionalDetails">
                         <td class="parameter">Westage</td>
                         <td class="separator">:</td>
                         <td class="value" id="jewelWestage"></td>
                     </tr>
-                    <tr class="optionalDetails">
+                    <tr id="optionalDetails">
                         <td class="parameter">Making Charge</td>
                         <td class="separator">:</td>
                         <td class="value" id="jewelMakingCharge"></td>
                     </tr>
-                    <tr class="optionalDetails">
+                    <tr id="optionalDetails">
                         <td class="parameter">GST</td>
                         <td class="separator">:</td>
                         <td class="value" id="jewelGST"></td>
@@ -232,92 +231,91 @@
                 </tbody>
             </table>
             <div class="row">
-                <div class="col-sm">
-                    <button id="toggleDetailsButton" class="btn btn-warning">Toggle</button>
+                <div class="col-sm" style="margin-top: 0px; float: left;">
+                    <button id="toggleDetailsButton" class="btn btn-warning" onclick="toggle_btn()">Toggle</button>
+                </div>
+                <div class="col-sm" style="margin-top: 0px; float: left;">
+                    <button id="printButton" class="btn btn-success" onclick="print_bill()">Print</button>
                 </div>
                 <div class="col-sm">
-                    <button id="printButton" class="btn btn-success" onclick="print_btn()">Print</button>
-                </div>
-                <div class="col-sm">
-                    <button id="updateButton" class="btn btn-primary">Update</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Update Jewel Details Section -->
-        <div id="updateJewelSection" class="border p-3 rounded shadow bg-dark text-light" style="display: none;">
-            <h4 class="text-center mb-4">Update Jewel Details</h4>
-            <hr>
-            <table class="table table-borderless text-light">
-                <tbody>
-                    <tr>
-                        <td class="parameter">Tag Number</td>
-                        <td class="separator">:</td>
-                        <td class="value" id="updateJewelTag"></td>
-                    </tr>
-                    <tr>
-                        <td class="parameter">Name</td>
-                        <td class="separator">:</td>
-                        <td class="value" id="updateJewelName"></td>
-                    </tr>
-                    <tr>
-                        <td class="parameter">Material</td>
-                        <td class="separator">:</td>
-                        <td class="value" id="updateJewelMaterial"></td>
-                    </tr>
-                    <tr>
-                        <td class="parameter">Purity</td>
-                        <td class="separator">:</td>
-                        <td class="value" id="updateJewelPurity"></td>
-                    </tr>
-                    <tr>
-                        <td class="parameter">Weight</td>
-                        <td class="separator">:</td>
-                        <td class="value" id="updateJewelWeight"></td>
-                    </tr>
-                    <tr>
-                        <td class="parameter">Material Price</td>
-                        <td class="separator">:</td>
-                        <td class="value" id="updateJewelMaterialprice"></td>
-                    </tr>
-                    <tr class="optionalDetails">
-                        <td class="parameter">Westage</td>
-                        <td class="separator">:</td>
-                        <td class="value" id="updateJewelWestage"></td>
-                    </tr>
-                    <tr class="optionalDetails">
-                        <td class="parameter">Making Charge</td>
-                        <td class="separator">:</td>
-                        <td class="value" id="updateJewelMakingCharge"></td>
-                    </tr>
-                    <tr class="optionalDetails">
-                        <td class="parameter">GST</td>
-                        <td class="separator">:</td>
-                        <td class="value" id="updateJewelGST"></td>
-                    </tr>
-                    <tr>
-                        <td class="parameter"><strong>Total</strong></td>
-                        <td class="separator">:</td>
-                        <td class="value" id="updateTotalAmt"></td>
-                    </tr>
-                </tbody>
-            </table>
-            <div class="row">
-                <div class="col-sm">
-                    <button id="backButton" class="btn btn-warning">Back</button>
-                </div>
-                <div class="col-sm">
-                    <button id="saveButton" class="btn btn-success">Save</button>
-                </div>
-                <div class="col-sm">
-                    <button id="deleteButton" class="btn btn-danger">Delete</button>
+                    <button id="updateButton" class="btn btn-custom" style="background-color: rgb(68, 68, 189);" onclick="update_btn(document.getElementById('jewel_id').textContent)">Update</button>
                 </div>
             </div>
         </div>
     </div>
-
+    <div class="col-sm-4">
+        <div class="row">
+            <div class="col-sm-10" id="inventory_section">
+                <!-- Button to Show the Form -->
+                <div id="insert_btn_section" style="display: block;">
+                    <div class="text-center mt-4">
+                        <button id="insertJewelButton" class="btn btn-custom">
+                            <span class="material-symbols-outlined">
+                                add_circle
+                            </span>
+                        </button>
+                        <div id="insert_text">Add Juwel</div>
+                    </div>
+                </div>
+                <!-- Form Block -->
+                <div id="formBlock" class="form-container mt-4" style="display: none;">
+                    <h4 class="mb-3">Insert Jewel Details</h4>
+                    <form id="jewelForm">
+                        <div class="mb-3">
+                            <label for="j_tag" class="form-label">Tag number</label>
+                            <input type="number" class="form-control" id="j_tag" placeholder="Enter jewel name"
+                                required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="j_name" class="form-label">Name</label>
+                            <input type="text" class="form-control" id="j_name" placeholder="Enter jewel name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="j_material" class="form-label">Material</label>
+                            <select class="form-select" id="j_material" required>
+                                <option value="" disabled selected>Select Material</option>
+                                <option value="gold">Gold</option>
+                                <option value="silver">Silver</option>
+                                <!-- <option value="Platinum">Platinum</option> -->
+                                <!-- <option value="Diamond">Diamond</option> -->
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="j_purity" class="form-label">Purity</label>
+                            <select class="form-select" id="j_purity" required>
+                                <option value="" disabled selected>Select Purity</option>
+                                <option value="24k">24K</option>
+                                <option value="22k">22K</option>
+                                <option value="18k">18K</option>
+                                <!-- <option value="14K">14K</option> -->
+                                <!-- <option value="925">925 (Sterling Silver)</option> -->
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="j_weight" class="form-label">Weight (in Grams)</label>
+                            <input type="number" step="0.01" class="form-control" id="j_weight"
+                                placeholder="Enter Weight of Jewel in grams" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="j_westage" class="form-label">Westage (in %)</label>
+                            <input type="number" step="0.01" class="form-control" id="j_westage"
+                                placeholder="Enter Westage in %" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="j_making_charge" class="form-label">Making Charges (in %)</label>
+                            <input type="number" step="0.01" class="form-control" id="j_making_charge"
+                                placeholder="Enter Making Charges in %" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="j_gst" class="form-label">GST (in %)</label>
+                            <input type="number" step="0.01" class="form-control" id="j_gst"
+                                placeholder="Enter GST in %" required>
+                        </div>
+                        <button onclick="insert_new_jewel('{{data.user.id}}')" class="btn btn-success">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
-<script src="{{url_for('static', filename='index_main.js')}}"></script>
 {% endblock body %}
