@@ -93,7 +93,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-sm-7" id="price_table_section" style="display: block;">
+            <div class="col-sm-7" id="price_table_section" style="display: none;">
                 <div class="table-responsive">
                     <table class="table table-bordered">
                         <thead>
@@ -173,8 +173,79 @@
             </div>
         </div>
     </div>
-    <div class="col-sm-4" style="border: 1px white solid;">
-        <h5>insert</h5>
+    <div class="col-sm-4">
+        <div class="row">
+            <div class="col-sm-10" id="inventory_section">
+                <!-- Button to Show the Form -->
+                <div id="insert_btn_section" style="display: block;">
+                    <div class="text-center mt-4">
+                        <button id="insertJewelButton" class="btn btn-custom">
+                            <span class="material-symbols-outlined">
+                                add_circle
+                            </span>
+                        </button>
+                        <div id="insert_text">Add Juwel</div>
+                    </div>
+                </div>
+                <!-- Form Block -->
+                <div id="formBlock" class="form-container mt-4" style="display: none;">
+                    <h4 class="mb-3">Insert Jewel Details</h4>
+                    <form id="jewelForm">
+                        <div class="mb-3">
+                            <label for="j_tag" class="form-label">Tag number</label>
+                            <input type="number" class="form-control" id="j_tag" placeholder="Enter jewel name"
+                                required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="j_name" class="form-label">Name</label>
+                            <input type="text" class="form-control" id="j_name" placeholder="Enter jewel name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="j_material" class="form-label">Material</label>
+                            <select class="form-select" id="j_material" required>
+                                <option value="" disabled selected>Select Material</option>
+                                <option value="gold">Gold</option>
+                                <option value="silver">Silver</option>
+                                <!-- <option value="Platinum">Platinum</option> -->
+                                <!-- <option value="Diamond">Diamond</option> -->
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="j_purity" class="form-label">Purity</label>
+                            <select class="form-select" id="j_purity" required>
+                                <option value="" disabled selected>Select Purity</option>
+                                <option value="24k">24K</option>
+                                <option value="22k">22K</option>
+                                <option value="18k">18K</option>
+                                <!-- <option value="14K">14K</option> -->
+                                <!-- <option value="925">925 (Sterling Silver)</option> -->
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="j_weight" class="form-label">Weight (in Grams)</label>
+                            <input type="number" step="0.01" class="form-control" id="j_weight"
+                                placeholder="Enter Weight of Jewel in grams" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="j_westage" class="form-label">Westage (in %)</label>
+                            <input type="number" step="0.01" class="form-control" id="j_westage"
+                                placeholder="Enter Westage in %" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="j_making_charge" class="form-label">Making Charges (in %)</label>
+                            <input type="number" step="0.01" class="form-control" id="j_making_charge"
+                                placeholder="Enter Making Charges in %" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="j_gst" class="form-label">GST (in %)</label>
+                            <input type="number" step="0.01" class="form-control" id="j_gst"
+                                placeholder="Enter GST in %" required>
+                        </div>
+                        <button onclick="insert_new_jewel('{{data.user.id}}')" class="btn btn-success">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 {% endblock body %}

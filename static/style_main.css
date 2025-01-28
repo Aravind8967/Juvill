@@ -157,11 +157,13 @@ hr {
 
 /* Card Flipping */
 #all_inventory_section .card.gold .card-front {
-    background: #ffd700; /* Gold color */
+    background: #ffd700;
+    /* Gold color */
 }
 
 #all_inventory_section .card.silver .card-front {
-    background: #c0c0c0; /* Silver color */
+    background: #c0c0c0;
+    /* Silver color */
 }
 
 #all_inventory_section .card:hover .edit-btn,
@@ -256,11 +258,13 @@ hr {
 /* ===================== Testing card section ========================= */
 
 #all_inventory_section .j-card.gold .j-card-front {
-    background: #ffd700; /* Gold color */
+    background: #ffd700;
+    /* Gold color */
 }
 
 #all_inventory_section .j-card.silver .j-card-front {
-    background: #c0c0c0; /* Silver color */
+    background: #c0c0c0;
+    /* Silver color */
 }
 
 #all_inventory_section .j-card:hover .edit-btn,
@@ -374,10 +378,13 @@ hr {
 
 /* ======================== last flip of card ==================== */
 #all_inventory_section .j-card {
-    perspective: 1000px; /* Enables 3D effect */
+    perspective: 1000px;
+    /* Enables 3D effect */
     position: relative;
-    width: 250px; /* Adjust as needed */
-    height: 350px; /* Adjust as needed */
+    width: 250px;
+    /* Adjust as needed */
+    height: 350px;
+    /* Adjust as needed */
     margin: 15px;
 }
 
@@ -386,11 +393,13 @@ hr {
     width: 100%;
     height: 100%;
     transform-style: preserve-3d;
-    transition: transform 0.6s; /* Smooth flip animation */
+    transition: transform 0.6s;
+    /* Smooth flip animation */
 }
 
 #all_inventory_section .j-card-inner.flipped {
-    transform: rotateY(180deg); /* Flip card */
+    transform: rotateY(180deg);
+    /* Flip card */
 }
 
 #all_inventory_section .j-card-front,
@@ -405,18 +414,21 @@ hr {
 
 #all_inventory_section .j-card-front {
     border: 1px solid white;
-    background-color: transparent; /* Front background color */
+    background-color: transparent;
+    /* Front background color */
     z-index: 2;
 }
 
 #all_inventory_section .j-card-back {
-    transform: rotateY(180deg); /* Flip back by default */
+    transform: rotateY(180deg);
+    /* Flip back by default */
     display: flex;
     justify-content: center;
     align-items: center;
     border: 1px solid white;
     padding: 20px;
-    background-color: transparent; /* Back background color */
+    background-color: transparent;
+    /* Back background color */
 }
 
 /* ==================================================================== */
@@ -481,7 +493,46 @@ th {
 /* ====================== Jewelery insert section ======================= */
 
 #inventory_section {
-    margin-top: 1%;
+    margin-top: 4rem;
+    margin-left: 5rem;
+    width: 30rem;
+    height: 40rem;
+    border: 1px solid white;
+    border-radius: 2rem;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+}
+
+#inventory_section::-webkit-scrollbar {
+    width: 5px;
+}
+
+#inventory_section::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+#inventory_section::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 3px;
+}
+
+#insertJewelButton {
+    background-color: transparent;
+}
+
+#insertJewelButton .material-symbols-outlined {
+    font-size: 8rem;
+}
+
+#insert_btn_section {
+    margin-top: 12rem;
+}
+
+#inventory_section #insert_text {
+    font-size: 2rem;
+    font-weight: bold;
+    color: white;
 }
 
 .btn-custom {

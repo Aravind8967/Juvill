@@ -5,7 +5,7 @@ const price_chart_btn = document.getElementById("price_chart_btn");
 const price_table_section = document.getElementById("price_table_section");
 const all_inventory_btn = document.getElementById("all_inventory_btn");
 const all_inventory_section = document.getElementById("all_inventory_section")
-const insertButton = document.getElementById("insertJewelButton");
+const insertButton = document.getElementById("insert_btn_section");
 const formBlock = document.getElementById("formBlock");
 let toggleDetailsFlag = true;
 const base_url = 'http://127.0.0.1/'
@@ -134,12 +134,14 @@ function get_price(j_material, j_purity) {
 insertButton.addEventListener("click", function (e) {
     e.stopPropagation(); // Prevent click from propagating to the document
     formBlock.style.display = (formBlock.style.display === "none" || formBlock.style.display === "") ? "block" : "none";
+    insertButton.style.display = "none";
 });
 
 // Hide the form when clicking outside of it
 document.addEventListener("click", function (e) {
     if (!formBlock.contains(e.target) && e.target !== insertButton) {
         formBlock.style.display = "none";
+        insertButton.style.display = "block";
     }
 });
 
