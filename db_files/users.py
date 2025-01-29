@@ -78,9 +78,9 @@ class Users:
         if db['status'] == 200:
             try:
                 con = db['connection']
-                q = "INSERT INTO users (u_name, u_company_name,u_password) VALUES (%s, %s, %s);"
+                q = "INSERT INTO users (u_name, u_company_name,u_password, gst_no) VALUES (%s, %s, %s, %s);"
                 cursor = con.cursor(dictionary=True)
-                cursor.execute(q, (data['u_name'],data['u_company_name'], data['u_password']))
+                cursor.execute(q, (data['u_name'],data['u_company_name'], data['u_password'], data['gst_no']))
                 db['connection'].commit()
                 return {'status':200, 'data':'New user created'}
             except:

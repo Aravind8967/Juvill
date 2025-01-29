@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% block title %} welcome {{data.user.u_name}} {% endblock title%}
+
+{% block body %}
+
+<div style="margin-top: 10rem;">
+    <div class="billing-container">
+        <div class="billing-header">
+            <h2>{{ data.user.u_company_name }}</h2>
+            <p>GST No: {{ data.user.gst_no }}</p>
+        </div>
+    
+        <!-- Jewel Details -->
+        <table class="table table-dark table-bordered">
+            <thead>
+                <tr>
+                    <th>Jewel ID</th>
+                    <th>Name</th>
+                    <th>Material</th>
+                    <th>Purity</th>
+                    <th>Weight</th>
+                    <th>Making Charge</th>
+                    <th>Westage</th>
+                    <th>Total Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <p id="bj_gst" style="display: none;">{{data.j_data.j_gst}}</p>
+                    <td id="bj_id">{{ data.j_data.j_id }}</td>
+                    <td id="bj_name">{{ data.j_data.j_name }}</td>
+                    <td id="bj_material">{{ data.j_data.j_material }}</td>
+                    <td id="bj_purity">{{ data.j_data.j_purity }}</td>
+                    <td id="bj_weight">{{ data.j_data.j_weight }} grams</td>
+                    <td id="bj_making_charge">{{ data.j_data.j_making_charge }} grams</td>
+                    <td id="bj_westage">{{ data.j_data.j_westage }} %</td>
+                    <td id="total-amount">Calculating...</td>
+                </tr>
+            </tbody>
+        </table>
+    
+        <!-- Buttons -->
+        <div class="buttons-row mt-4 d-flex justify-content-between">
+            <button class="btn btn-warning" id="gst-toggle" onclick="toggleGST()">Toggle GST</button>
+            <button class="btn btn-success" onclick="printPage()">Print</button>
+        </div>
+    </div>
+</div>
+<script src="{{url_for('static', filename='billing.js')}}"></script>
+
+{% endblock body %}

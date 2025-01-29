@@ -51,6 +51,7 @@ def signup():
     if request.method == 'POST':
         name = request.form['name']
         c_name = request.form['c_name']
+        gst_no = request.form['gst_no']
         pass1 = request.form['password1']
         pass2 = request.form['password2']
         user_present = True if db.get_user(name)['status'] == 200 else False
@@ -59,6 +60,7 @@ def signup():
                 data = {
                     "u_name":name,
                     "u_company_name":c_name,
+                    "gst_no":gst_no,
                     "u_password":pass1
                 }
                 new_user = db.set_user(data)
@@ -133,7 +135,18 @@ def delete_jewel_id(j_id):
         return jsonify(delete_jewel)
     except Exception as e:
         return jsonify({'status':500, 'error':str(e)})
-
+    
+@app.route('/billing/<int:j_id>', methods=['GET'])
+def billing(j_id):
+    if session.get("user_data"):
+        user_data = session.get("user_data")
+        data = {
+            'user':user_data,
+            'j_id':j_id
+        }
+        print(data)
+        if user_data:
+            return render_template("billing.html", data=data)
 
 @app.route('/test')
 def test():

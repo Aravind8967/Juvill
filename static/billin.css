@@ -1,0 +1,33 @@
+body {
+    background-color: #212529;
+    color: #f8f9fa;
+}
+
+#billing_section {
+    margin-top: 12rem;
+    margin-left: 6rem;
+}
+
+.billing-container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.5);
+    background-color: #343a40;
+}
+.billing-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+.table-dark th, .table-dark td {
+    border-color: #495057;
+}
+.btn {
+    margin-right: 10px;
+}
+@media print {
+    .buttons-row {
+        display: none;
+    }
+}

@@ -89,7 +89,9 @@ async function get_all_inventory(u_id) {
                                     <div style="text-align: center;">${jewel.j_making_charge} %</div>
                                 </div>
                             </div>
-                            <div class="j-card-price" style="margin-top: 30px;">Rs. ${j_price}</div>
+                            <button id="total_amt_btn" style="background-color: transparent; border: none;" onclick="redirectToBilling(${jewel.j_id})">
+                                <div class="j-card-price" style="margin-top: 30px;" id="totalAmt">Rs. ${j_price}</div>
+                            </button>
                         </div>
                         <!-- Back -->
                         <div class="j-card-back">
@@ -344,7 +346,9 @@ function appendJewelDetails(jewel) {
                             <div style="text-align: center;" id="jewelMakingCharge">${jewel.j_making_charge}%</div>
                         </div>
                     </div>
-                    <div class="j-card-price" style="margin-top: 30px;" id="totalAmt">Rs. ${j_price}</div>
+                    <button id="total_amt_btn" style="background-color: transparent; border: none;" onclick="redirectToBilling(${jewel.j_id})">
+                        <div class="j-card-price" style="margin-top: 30px;" id="totalAmt">Rs. ${j_price}</div>
+                    </button>
                 </div>
                 <!-- Back -->
                 <div class="j-card-back">
@@ -580,10 +584,13 @@ function print_bill() {
     newWindow.print();
 }
 
-
 // ===================================== Billing Chart section ===============================
+function redirectToBilling(j_id){
+    console.log(j_id)
+}
 
 
+// ===========================================================================================
 function index_test() {
     console.log('js file attached successfully')
 }
