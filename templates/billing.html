@@ -26,22 +26,29 @@
             </thead>
             <tbody>
                 <tr>
-                    <p id="bj_gst" style="display: none;">{{data.j_data.j_gst}}</p>
+                    <p id="bj_gst" style="display: none;">{{ data.j_data.j_gst }}</p>
                     <td id="bj_id">{{ data.j_data.j_id }}</td>
                     <td id="bj_name">{{ data.j_data.j_name }}</td>
                     <td id="bj_material">{{ data.j_data.j_material }}</td>
                     <td id="bj_purity">{{ data.j_data.j_purity }}</td>
                     <td id="bj_weight">{{ data.j_data.j_weight }} grams</td>
-                    <td id="bj_making_charge">{{ data.j_data.j_making_charge }} grams</td>
-                    <td id="bj_westage">{{ data.j_data.j_westage }} %</td>
-                    <td id="total-amount">Calculating...</td>
+                    <td id="bj_making_charge">{{ data.j_data.j_making_charge }}%</td>
+                    <td id="bj_westage">{{ data.j_data.j_westage }}%</td>
+                    <td id="total-amount" data-original-amount="{{ data.total_amt }}">Rs. {{ data.total_amt }}</td>
                 </tr>
             </tbody>
         </table>
+        <div class="mb-3">
+            <label for="gst-selector" class="form-label">Include GST?</label>
+            <select id="gst-selector" class="form-select" onchange="calculateTotal()">
+                <option value="no" selected>No</option>
+                <option value="yes">Yes</option>
+            </select>
+        </div>
     
         <!-- Buttons -->
         <div class="buttons-row mt-4 d-flex justify-content-between">
-            <button class="btn btn-warning" id="gst-toggle" onclick="toggleGST()">Toggle GST</button>
+            <!-- <button class="btn btn-warning" id="gst-toggle" onclick="toggleGST()">Toggle GST</button> -->
             <button class="btn btn-success" onclick="printPage()">Print</button>
         </div>
     </div>

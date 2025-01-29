@@ -1,45 +1,32 @@
-let gstIncluded = false; // Tracks whether GST is included
-
 function calculateTotal() {
-    const weight = document.getElementById('bj_weight').innerText;
-    const gstPercent = document.getElementById('bj_gst').innerText;
-    const makingChargePercent = document.getElementById('bj_making_charge').innerText;
-    const wastagePercent = document.getElementById('bj_westage').innerText;
-    console.log({'weight' : [weight, typeof weight], 
-                'gstPercent' : [gstPercent, typeof gstPercent], 
-                'makingChargePercent' : [makingChargePercent, typeof makingChargePercent],
-                'wastagePercent' : [wastagePercent, typeof wastagePercent]});
-    // // Material cost
-    // const materialCost = materialPricePerGram * weight;
+    // Get all values from the HTML
+    const weight = parseFloat(document.getElementById('bj_weight').innerText);
+    const gstPercent = parseFloat(document.getElementById('bj_gst').innerText);
+    const makingChargePercent = parseFloat(document.getElementById('bj_making_charge').innerText);
+    const wastagePercent = parseFloat(document.getElementById('bj_westage').innerText);
+    let baseTotal = parseFloat(document.getElementById('total-amount').getAttribute("data-original-amount"));
 
-    // // Wastage, Making Charges
-    // const wastageCost = (materialCost * wastagePercent) / 100;
-    // const makingCharge = (materialCost * makingChargePercent) / 100;
+    // Get GST selection
+    let gstSelection = document.getElementById('gst-selector').value;
+    let gstCharge = gstSelection === "yes" ? (baseTotal * gstPercent) / 100 : 0; // Apply GST if selected
 
-    // // Calculate Total
-    // let totalAmount = materialCost + wastageCost + makingCharge;
+    // Calculate additional charges
+    let makingCharge = (baseTotal * makingChargePercent) / 100;
+    let wastageCharge = (baseTotal * wastagePercent) / 100;
 
-    // if (gstIncluded) {
-    //     const gst = (totalAmount * gstPercent) / 100;
-    //     totalAmount += gst;
-    // }
+    let finalTotal = baseTotal + makingCharge + wastageCharge + gstCharge;
 
-    // // Update the Total Amount
-    // document.getElementById("total-amount").textContent = `Rs. ${totalAmount.toFixed(2)}`;
-}
-
-function toggleGST() {
-    gstIncluded = !gstIncluded; // Toggle GST inclusion
-    calculateTotal(); // Recalculate total
+    // Update total amount on page
+    document.getElementById('total-amount').innerText = `Rs. ${finalTotal.toFixed(2)}`;
 }
 
 function printPage() {
-    calculateTotal(); // Ensure latest total is shown
+    calculateTotal(); // Ensure latest total is displayed
     setTimeout(() => {
         window.print();
-    }, 300); // Allow DOM to update before printing
+    }, 300); // Delay to update UI before printing
 }
 
 function billing_js(){
-    console.log("billing js file attached")
+    console.log("billing js file attached");
 }

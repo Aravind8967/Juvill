@@ -585,10 +585,16 @@ function print_bill() {
 }
 
 // ===================================== Billing Chart section ===============================
-function redirectToBilling(j_id){
-    console.log(j_id)
+async function redirectToBilling(j_id) {
+    // Get the total amount from the button
+    let totalAmt = document.getElementById("totalAmt").innerText.replace("Rs. ", "").trim();
+    
+    // Encode the amount to pass it via URL
+    var url = `/billing/${j_id}?total_amt=${encodeURIComponent(totalAmt)}`;
+    
+    console.log("Redirecting to:", url);
+    window.location.href = url;
 }
-
 
 // ===========================================================================================
 function index_test() {

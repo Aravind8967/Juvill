@@ -140,13 +140,21 @@ def delete_jewel_id(j_id):
 def billing(j_id):
     if session.get("user_data"):
         user_data = session.get("user_data")
+        j_data = inventory.get_by_jewel_id(j_id)['data'][0]
+        
+        # Get total amount from query parameter
+        total_amt = request.args.get("total_amt", "0")
+
         data = {
-            'user':user_data,
-            'j_id':j_id
+            'user': user_data,
+            'j_data': j_data,
+            'total_amt': total_amt  # Pass total amount to template
         }
-        print(data)
-        if user_data:
-            return render_template("billing.html", data=data)
+        print("Billing Data:", data)
+        
+        return render_template('billing.html', data=data)
+    else:
+        return redirect("/login")
 
 @app.route('/test')
 def test():
