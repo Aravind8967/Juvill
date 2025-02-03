@@ -58,8 +58,21 @@ async function get_all_inventory(u_id) {
             for (const jewel of jewelryData) {
                 const cardWrapper = document.createElement("div");
                 cardWrapper.classList.add("j-card");
-                
-                var total_amt_data = await total_amt(u_id, jewel)
+
+                // Fetch material price properly using await
+                const j_material_price = await get_price(u_id, jewel.j_material, jewel.j_purity);
+
+                if (!j_material_price) {
+                    console.error(`Price not found for ${jewel.j_material} ${jewel.j_purity}`);
+                    continue;
+                }
+
+                // Calculate price details correctly
+                const j_material_cost = j_material_price * jewel.j_weight;
+                const gst = (j_material_cost * jewel.j_gst) / 100;
+                const westage = (j_material_cost * jewel.j_westage) / 100;
+                const making_charge = (j_material_cost * jewel.j_making_charge) / 100;
+                const j_price = j_material_cost + gst + westage + making_charge;
 
                 // Set the card HTML
                 cardWrapper.innerHTML = `
@@ -85,7 +98,7 @@ async function get_all_inventory(u_id) {
                                 </div>
                             </div>
                             <button id="total_amt_btn" style="background-color: transparent; border: none;" onclick="redirectToBilling(${jewel.j_id})">
-                                <div class="j-card-price" style="margin-top: 30px;" id="totalAmt">Rs. ${total_amt_data['total']}</div>
+                                <div class="j-card-price" style="margin-top: 30px;" id="totalAmt">Rs. ${j_price.toFixed(2)}</div>
                             </button>
                         </div>
                         <!-- Back -->
@@ -385,7 +398,12 @@ async function get_jewel(u_id) {
 
 async function appendJewelDetails(u_id, jewel) {
     // Calculate price details
-    const total_amt_data = await total_amt(u_id, jewel)
+    const j_material_price = await get_price(u_id, jewel.j_material, jewel.j_purity);
+    const j_material_cost = j_material_price * jewel.j_weight;
+    const gst = (j_material_cost * jewel.j_gst) / 100;
+    const westage = (j_material_cost * jewel.j_westage) / 100;
+    const making_charge = (j_material_cost * jewel.j_making_charge) / 100;
+    const j_price = (j_material_cost + gst + westage + making_charge);
     const cardHTML = `
         <div class="j-card" onclick="this.classList.toggle('flipped')">
             <div class="j-card-inner">
@@ -414,7 +432,7 @@ async function appendJewelDetails(u_id, jewel) {
                         </div>
                     </div>
                     <button id="total_amt_btn" style="background-color: transparent; border: none;" onclick="redirectToBilling(${jewel.j_id})">
-                        <div class="j-card-price" style="margin-top: 30px;" id="totalAmt">Rs. ${total_amt_data['total']}</div>
+                        <div class="j-card-price" style="margin-top: 30px;" id="totalAmt">Rs. ${j_price}</div>
                     </button>
                 </div>
                 <!-- Back -->

@@ -9,7 +9,7 @@
             <h2>{{ data.user.u_company_name }}</h2>
             <p>GST No: {{ data.user.gst_no }}</p>
         </div>
-    
+
         <!-- Jewel Details -->
         <table class="table table-dark table-bordered">
             <thead>
@@ -34,25 +34,29 @@
                     <td id="bj_weight">{{ data.j_data.j_weight }} grams</td>
                     <td id="bj_making_charge">{{ data.j_data.j_making_charge }}%</td>
                     <td id="bj_westage">{{ data.j_data.j_westage }}%</td>
-                    <td id="total-amount" data-original-amount="{{ data.total_amt }}">Rs. {{ data.total_amt }}</td>
+                    <td id="total-amount">Rs. XXXXX</td>
                 </tr>
             </tbody>
         </table>
         <div class="mb-3">
             <label for="gst-selector" class="form-label">Include GST?</label>
-            <select id="gst-selector" class="form-select" onchange="calculateTotal()">
-                <option value="no" selected>No</option>
-                <option value="yes">Yes</option>
+            <select id="gst-selector" class="form-select" onchange="calculateTotal('{{data.user.id}}')">
+                <option value="yes" selected>Yes</option>
+                <option value="no">No</option>
             </select>
         </div>
-    
+
         <!-- Buttons -->
         <div class="buttons-row mt-4 d-flex justify-content-between">
-            <!-- <button class="btn btn-warning" id="gst-toggle" onclick="toggleGST()">Toggle GST</button> -->
             <button class="btn btn-success" onclick="printPage()">Print</button>
         </div>
     </div>
 </div>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        calculateTotal('{{data.user.id}}');  // Initialize total amount on page load
+    });
+</script>
 <script src="{{url_for('static', filename='billing.js')}}"></script>
 
 {% endblock body %}

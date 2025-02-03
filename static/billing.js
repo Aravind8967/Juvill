@@ -1,23 +1,26 @@
-function calculateTotal() {
+async function calculateTotal(u_id) {
     // Get all values from the HTML
-    const weight = parseFloat(document.getElementById('bj_weight').innerText);
-    const gstPercent = parseFloat(document.getElementById('bj_gst').innerText);
-    const makingChargePercent = parseFloat(document.getElementById('bj_making_charge').innerText);
-    const wastagePercent = parseFloat(document.getElementById('bj_westage').innerText);
-    let baseTotal = parseFloat(document.getElementById('total-amount').getAttribute("data-original-amount"));
+    const j_gst = parseInt(document.getElementById('bj_gst').innerText);
+    const j_name = document.getElementById('bj_name');
+    const j_material = document.getElementById('bj_material').innerText;
+    const j_purity = document.getElementById('bj_purity').innerText;
+    const j_weight = parseFloat(document.getElementById('bj_weight').innerText);
+    const j_making_charge = parseFloat(document.getElementById('bj_making_charge').innerText);
+    const j_westage = parseFloat(document.getElementById('bj_westage').innerText);
 
-    // Get GST selection
-    let gstSelection = document.getElementById('gst-selector').value;
-    let gstCharge = gstSelection === "yes" ? (baseTotal * gstPercent) / 100 : 0; // Apply GST if selected
-
-    // Calculate additional charges
-    let makingCharge = (baseTotal * makingChargePercent) / 100;
-    let wastageCharge = (baseTotal * wastagePercent) / 100;
-
-    let finalTotal = baseTotal + makingCharge + wastageCharge + gstCharge;
-
-    // Update total amount on page
-    document.getElementById('total-amount').innerText = `Rs. ${finalTotal.toFixed(2)}`;
+    data = {
+        'j_material' : j_material,
+        'j_purity' : j_purity,
+        'j_westage' : j_westage,
+        'j_weight' : j_weight,
+        'j_gst' :j_gst,
+        'j_making_charge' : j_making_charge
+    };
+    var amount_data = await total_amt(u_id, data);
+    let gst_selection = document.getElementById('gst-selector').value;
+    let final_total = gst_selection === "yes" ? amount_data['total'] : amount_data['without_gst']
+    console.log(data);
+    document.getElementById('total-amount').innerText = `Rs. ${final_total}`;
 }
 
 function printPage() {
