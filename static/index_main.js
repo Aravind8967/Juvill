@@ -124,6 +124,7 @@ async function editJewel(j_id) {
         if (j_data.length > 0) {
             console.log(j_data[0])
             let raw_data = j_data[0]
+            document.getElementById('uj_id').innerText = j_id;
             document.getElementById('uj_tag').value = raw_data.j_tag;
             document.getElementById('uj_name').value = raw_data.j_name;
             document.getElementById('uj_material').value = raw_data.j_material;
