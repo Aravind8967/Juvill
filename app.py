@@ -70,7 +70,6 @@ def signup():
                 if new_user['status'] == 200:
                     new_user_id = db.get_user(name)['data'][0]['id']
                     new_p_table = p_table.new_price_chart(new_user_id)
-                    print({'new_p_table' : new_p_table})
                     msg = "New User created please login"
                     return render_template("login.html", msg = msg)
                 else:
@@ -89,9 +88,7 @@ def signup():
 def insert_jewel():
     try:
         data = request.json
-        print(data)
         jewel_details = inventory.insert_jewel(data)
-        print(jewel_details)
         return jsonify(jewel_details)
     except Exception as e:
         return jsonify({'status': 500, 'error': str(e)})
@@ -117,7 +114,6 @@ def get_jewel_id(j_id):
 def get_all_data_by_id(u_id):
     try:
         all_data = inventory.get_all_by_userid(u_id)
-        print("all data fetched")
         return jsonify(all_data)
     except Exception as e:
         return jsonify({'status':500, 'error':str(e)})
@@ -127,8 +123,6 @@ def update_jewel_id(j_id):
     try:
         data = request.json
         update_jewel = inventory.update_by_jewel_id(data, j_id)
-        print({'data' : data, 'j_id' : j_id, 'j_id type' : type(j_id)})
-        print(update_jewel)
         return jsonify(update_jewel)
     except Exception as e:
         return jsonify({'status':500, 'error':str(e)})
@@ -137,7 +131,6 @@ def update_jewel_id(j_id):
 def delete_jewel_id(j_id):
     try:
         delete_jewel = inventory.delete_by_jewel_id(j_id)
-        print(delete_jewel)
         return jsonify(delete_jewel)
     except Exception as e:
         return jsonify({'status':500, 'error':str(e)})
@@ -160,7 +153,6 @@ def set_price(u_id):
     try:
         data = request.json
         set_price = p_table.set_price(data, u_id)
-        print(data)
         return jsonify(set_price)
     except Exception as e:
         return jsonify({'status':500, 'error':str(e)})
@@ -170,7 +162,7 @@ def billing(j_id):
     if session.get("user_data"):
         user_data = session.get("user_data")
         j_data = inventory.get_by_jewel_id(j_id)['data'][0]
-
+        user_data = db.get_userid(session.get('user_data')['id'])['data'][0]
         data = {
             'user': user_data,
             'j_data': j_data,
@@ -186,7 +178,6 @@ def profile(u_id):
         data = {
             'user':user_data
         }
-        print({'u_id':u_id, 'user':user_data})
         if user_data:
             return render_template("profile.html", data=data)
         else:
@@ -198,7 +189,6 @@ def profile(u_id):
 def update_profile(u_id):
     try:
         data = request.json
-        print(data)
         update_user = db.update_user(data)
         return jsonify(update_user)
     except Exception as e:

@@ -1,5 +1,3 @@
-google.charts.load('current', { 'packages': ['corechart'] });
-google.charts.setOnLoadCallback(drawChart);
 window.addEventListener("load", populateTicker);
 const price_chart_btn = document.getElementById("price_chart_btn");
 const price_table_section = document.getElementById("price_table_section");
@@ -112,7 +110,6 @@ async function get_all_inventory(u_id) {
 
 // Edit functionality
 async function editJewel(j_id) {
-    console.log('edit btn pressed j_id : ', j_id);
     const insert_btn_section = document.getElementById("insert_btn_section");
     const form_block = document.getElementById('formBlock');
     const jewel_update = document.getElementById('jewelUpdateSection');
@@ -122,7 +119,6 @@ async function editJewel(j_id) {
     if (response.ok) {
         let j_data = result.data;
         if (j_data.length > 0) {
-            console.log(j_data[0])
             let raw_data = j_data[0]
             document.getElementById('uj_id').innerText = j_id;
             document.getElementById('uj_tag').value = raw_data.j_tag;
@@ -156,7 +152,6 @@ async function update_to_db(j_id, u_id) {
         'j_making_charge': document.getElementById('uj_making_charge').value,
         'j_gst': document.getElementById('uj_gst').value,
     };
-    console.log({ 'update_to_db': data, 'j_id': Number(j_id) })
     try {
         const response = await fetch(`/update_jewel_id/${j_id}`, {
             method: 'POST',
@@ -167,7 +162,6 @@ async function update_to_db(j_id, u_id) {
         });
         const result = await response.json();
         if (response.ok) {
-            console.log(result);
             alert(result.data);
             location.reload();
             
@@ -206,7 +200,6 @@ async function save_price(u_id) {
         }
     });
     for (var i = 0; i < priceData.length; i++){
-        console.log(priceData[i])
         await set_price(priceData[i], u_id)
     }
     location.reload();
@@ -239,7 +232,6 @@ async function get_price(u_id, j_material, j_purity) {
     if (response.ok){
         var data = result.j_price.data[0];
         var j_price = data['price']
-        // console.log({'j_price' : j_price, 'type': typeof j_price})
         return j_price
     }
     else{
@@ -319,9 +311,6 @@ async function insert_new_jewel(u_id) {
         'j_making_charge': document.getElementById('j_making_charge').value,
         'j_gst': document.getElementById('j_gst').value,
     };
-
-    console.log(data); // Log for debugging
-
     try {
         // Send data to the backend
         const response = await fetch('/insert_jewel', {
@@ -336,7 +325,6 @@ async function insert_new_jewel(u_id) {
         const result = await response.json();
 
         if (response.ok) {
-            console.log(result); // Log the server response
             alert(result.data); // Display success message
         } else {
             console.error('Error:', result);
@@ -354,7 +342,6 @@ async function get_jewel(u_id) {
         'u_id': u_id,
         'j_tag': j_tag
     }
-    console.log(data)
     try {
         const response = await fetch('/get_jewel_tag', {
             method: 'POST',
@@ -367,9 +354,7 @@ async function get_jewel(u_id) {
         if (response.ok) {
             let jewel_data = result.data;
             if (jewel_data.length > 0) {
-                console.log(jewel_data[0]);
                 appendJewelDetails(u_id, jewel_data[0])
-                console.log('jewel details displayed sucessfully')
             }
             else {
                 alert(`Not able to find the Jewel with ${j_tag}`);
@@ -430,104 +415,6 @@ async function appendJewelDetails(u_id, jewel) {
     jewelDetailsSection.innerHTML = ''
     jewelDetailsSection.style.display = "block"; // Ensure the section is visible
     jewelDetailsSection.innerHTML += cardHTML; // Append the new card
-}
-
-
-async function displayJewelDetails(data) {
-    console.log('calling display jewel details');
-    console.log({ 'data from db': data })
-    let calculate_amt = await total_amt(data);
-    document.getElementById('jewel_id').innerHTML = data.j_id;
-    document.getElementById('jewelTag').innerText = data.j_tag;
-    document.getElementById('jewelName').innerText = data.j_name;
-    document.getElementById('jewelMaterial').innerText = data.j_material;
-    document.getElementById('jewelPurity').innerText = data.j_purity;
-    document.getElementById('jewelWeight').innerText = data.j_weight;
-    document.getElementById('jewelMaterialprice').innerText = calculate_amt.material_price;
-    document.getElementById('jewelWestage').innerText = calculate_amt.westage;
-    document.getElementById('jewelMakingCharge').innerText = calculate_amt.making_charge;
-    document.getElementById('jewelGST').innerText = calculate_amt.gst;
-    document.getElementById('totalAmt').innerText = calculate_amt.total;
-
-    // Show the details section
-    document.getElementById('jewelDetailsSection').style.display = 'block';
-}
-
-function drawChart(bill_data) {
-    console.log({ 'bill_data': bill_data })
-    if (bill_data == undefined) {
-        console.log("undefined error")
-        return 0
-    }
-    else {
-        var bill_keys = ['material_price', 'westage', 'making_charge', 'gst']
-        let data = new google.visualization.DataTable();
-        data.addColumn('string', 'bill_keys');
-        data.addColumn('number', 'bill_values');
-
-        for (let i = 0; i < bill_keys.length; i++) {
-            data.addRow([
-                bill_keys[i],
-                Number(bill_data[bill_keys[i]])
-            ])
-            console.log([bill_keys[i], bill_data[bill_keys[i]]])
-        }
-
-        var options = {
-            title: 'Bill Pie Chart',
-            titleTextStyle: {
-                color: 'white',
-                fontSize: 15
-            },
-            legend: {
-                position: 'right',
-                textStyle: {
-                    color: 'blue'
-                }
-            },
-            backgroundColor: 'transparent',
-            chartArea: {
-                left: 50,
-                right: 10,
-                top: 50,
-                bottom: 50,
-                width: '100%',
-                height: '100%'
-            },
-            tooltip: {
-                isHtml: true,
-                trigger: 'focus'
-            },
-
-            focusTarget: 'category',
-
-            pointSize: 7,
-            interpolateNulls: true
-        };
-
-        var chart = new google.visualization.PieChart(document.getElementById('bill_chart'));
-
-        chart.draw(data, options);
-    }
-}
-
-function toggle_btn() {
-    console.log('toggle btn pressed')
-    const optionalDetailsRows = document.querySelectorAll('#optionalDetails');
-    optionalDetailsRows.forEach(row => {
-        if (row.classList.contains('visible')) {
-            row.classList.remove('visible');
-        } else {
-            row.classList.add('visible');
-        }
-    });
-}
-
-function back_to_details(u_id) {
-    console.log('back to details button pressed');
-    document.getElementById('jewelDetailsSection').style.display = 'block';
-    document.getElementById('jewelUpdateSection').style.display = 'none';
-    get_jewel(u_id);
 }
 
 async function update_btn(j_id) {
@@ -604,54 +491,6 @@ async function total_amt(u_id, data) {
     }
     console.log(total_amt_data);
     return total_amt_data
-}
-
-
-function print_bill() {
-    console.log('Print bill button pressed');
-
-    // Retrieve content from both sections
-    const jewelDetailContent = document.getElementById('jewelDetailsSection').outerHTML;
-    const billingChartContent = document.getElementById('billing_chart_section').outerHTML;
-
-    // Open a new window for printing
-    const newWindow = window.open('', '_blank');
-
-    // Write content to the new window
-    newWindow.document.write(`
-        <html>
-        <head>
-            <title>Print Jewel Details</title>
-            <style>
-                body {
-                    font-family: Arial, sans-serif;
-                    margin: 20px;
-                    color:black
-                }
-                .section {
-                    margin-bottom: 20px;
-                    padding: 10px;
-                    border: 1px solid #ddd;
-                    border-radius: 5px;
-                }
-            </style>
-        </head>
-        <body>
-            <div class="section">
-                <h2>Jewel Details</h2>
-                ${jewelDetailContent}
-            </div>
-            <div class="section">
-                <h2>Billing Chart</h2>
-                ${billingChartContent}
-            </div>
-        </body>
-        </html>
-    `);
-
-    // Close and print the new window
-    newWindow.document.close();
-    newWindow.print();
 }
 
 // ===================================== Billing Chart section ===============================
