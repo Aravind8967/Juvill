@@ -179,6 +179,39 @@ def billing(j_id):
     else:
         return redirect("/login")
 
+@app.route('/<int:u_id>/profile')
+def profile(u_id):
+    if session.get("user_data"):
+        user_data = db.get_userid(u_id)['data'][0]
+        data = {
+            'user':user_data
+        }
+        print({'u_id':u_id, 'user':user_data})
+        if user_data:
+            return render_template("profile.html", data=data)
+        else:
+            return redirect("/login")
+    else:
+        return redirect("/login")
+
+@app.route('/<int:u_id>/update_profile', methods=['POST'])
+def update_profile(u_id):
+    try:
+        data = request.json
+        print(data)
+        update_user = db.update_user(data)
+        return jsonify(update_user)
+    except Exception as e:
+        return jsonify({'status':500, 'error':str(e)})
+    
+@app.route('/<int:u_id>/delete_profile', methods=['DELETE'])
+def delete_profile(u_id):
+    try:
+        delete_profile = db.delete_user(u_id)
+        return jsonify(delete_profile)
+    except Exception as e:
+        return jsonify({'status':500, 'error':str(e)})
+
 @app.route('/test')
 def test():
     if session.get("user_data"):

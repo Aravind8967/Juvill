@@ -105,8 +105,8 @@ class Users:
         if db["status"] == 200:
             con = db["connection"]
             cursor = con.cursor()
-            q = "UPDATE USERS SET u_name = %s, u_company_name = %s,u_password = %s WHERE id = %s"
-            cursor.execute(q, (data['u_name'], data['u_company_name'], data['u_password'], data['id']))
+            q = "UPDATE USERS SET u_name = %s, gst_no = %s, u_company_name = %s,u_password = %s WHERE id = %s"
+            cursor.execute(q, (data['u_name'], data['gst_no'], data['u_company_name'], data['u_password'], data['u_id']))
             con.commit()
             return {'status':200, 'data':'User account updated'}
         else:
@@ -131,11 +131,12 @@ def get_all_users():
 
 if __name__ == '__main__':
     users = Users()
-    data = {
-        'id' : 2,
-        'u_name' : 'Varun',
-        'u_company_name' : 'Varun jewel shope',
-        'u_password' : '1234'
+    update_data = {
+        'u_id': 13,
+        'u_company_name': 'testing',
+        'gst_no': 'gstNo : 1548652311',
+        'u_name': 'testing',
+        'u_password': 'password'
     }
-
-    print(users.get_user('Aravind'))
+    print(users.get_userid(13))
+    # print(users.update_user(update_data))
