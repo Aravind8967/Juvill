@@ -1,10 +1,13 @@
 from flask import Flask, jsonify,render_template,flash,request,redirect,session, url_for
 from db_files.users import Users
 from db_files.inventory import Inventory
+from db_files.price_table import price_table
 from flask_cors import CORS
 
 db = Users()
 inventory = Inventory()     
+p_table = price_table()
+
 app = Flask(__name__)
 CORS(app)
 app.secret_key = "Aru.8967"
@@ -65,6 +68,9 @@ def signup():
                 }
                 new_user = db.set_user(data)
                 if new_user['status'] == 200:
+                    new_user_id = db.get_user(name)['data'][0]['id']
+                    new_p_table = p_table.new_price_chart(new_user_id)
+                    print({'new_p_table' : new_p_table})
                     msg = "New User created please login"
                     return render_template("login.html", msg = msg)
                 else:
@@ -136,22 +142,39 @@ def delete_jewel_id(j_id):
     except Exception as e:
         return jsonify({'status':500, 'error':str(e)})
     
+@app.route('/get_price/<int:u_id>/<j_material>/<j_purity>', methods=['GET'])
+def get_price(u_id, j_material, j_purity):
+    data = {
+        'u_id' : u_id,
+        'material' : j_material,
+        'purity' : j_purity
+    }
+    j_price = p_table.get_price(data)
+    data = {
+        'j_price' : j_price
+    }
+    return jsonify(data)
+
+@app.route('/set_price/<int:u_id>', methods=['POST'])
+def set_price(u_id):
+    try:
+        data = request.json
+        set_price = p_table.set_price(data, u_id)
+        print(data)
+        return jsonify(set_price)
+    except Exception as e:
+        return jsonify({'status':500, 'error':str(e)})
+
 @app.route('/billing/<int:j_id>', methods=['GET'])
 def billing(j_id):
     if session.get("user_data"):
         user_data = session.get("user_data")
         j_data = inventory.get_by_jewel_id(j_id)['data'][0]
-        
-        # Get total amount from query parameter
-        total_amt = request.args.get("total_amt", "0")
 
         data = {
             'user': user_data,
             'j_data': j_data,
-            'total_amt': total_amt  # Pass total amount to template
-        }
-        print("Billing Data:", data)
-        
+        }        
         return render_template('billing.html', data=data)
     else:
         return redirect("/login")

@@ -110,7 +110,7 @@ class Users:
             con.commit()
             return {'status':200, 'data':'User account updated'}
         else:
-            return {'status':404, 'data':'Not able to delete user'}
+            return {'status':404, 'data':'Not able to Update user'}
 
 
     def truncate_table(self):
@@ -138,4 +138,4 @@ if __name__ == '__main__':
         'u_password' : '1234'
     }
 
-    print(users.get_all_users())
+    print(users.get_user('Aravind'))

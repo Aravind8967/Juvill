@@ -43,6 +43,7 @@ document.addEventListener("click", function (e) {
 
 // ========================= All inventory section ========================
 // Jewelry data fetched from your backend
+
 async function get_all_inventory(u_id) {
     const response = await fetch(`/get_all_data_by_id/${u_id}`);
     const result = await response.json();
@@ -54,17 +55,11 @@ async function get_all_inventory(u_id) {
             const cardsContainer = document.getElementById("cards-container");
             cardsContainer.innerHTML = ''; // Clear existing cards
 
-            jewelryData.forEach(jewel => {
+            for (const jewel of jewelryData) {
                 const cardWrapper = document.createElement("div");
                 cardWrapper.classList.add("j-card");
-
-                // Calculate price details
-                const j_material_price = get_price(jewel.j_material, jewel.j_purity);
-                const j_material_cost = j_material_price * jewel.j_weight;
-                const gst = (j_material_cost * jewel.j_gst) / 100;
-                const westage = (j_material_cost * jewel.j_westage) / 100;
-                const making_charge = (j_material_cost * jewel.j_making_charge) / 100;
-                const j_price = (j_material_cost + gst + westage + making_charge);
+                
+                var total_amt_data = await total_amt(u_id, jewel)
 
                 // Set the card HTML
                 cardWrapper.innerHTML = `
@@ -90,7 +85,7 @@ async function get_all_inventory(u_id) {
                                 </div>
                             </div>
                             <button id="total_amt_btn" style="background-color: transparent; border: none;" onclick="redirectToBilling(${jewel.j_id})">
-                                <div class="j-card-price" style="margin-top: 30px;" id="totalAmt">Rs. ${j_price}</div>
+                                <div class="j-card-price" style="margin-top: 30px;" id="totalAmt">Rs. ${total_amt_data['total']}</div>
                             </button>
                         </div>
                         <!-- Back -->
@@ -108,7 +103,7 @@ async function get_all_inventory(u_id) {
 
                 // Append the card to the container
                 cardsContainer.appendChild(cardWrapper);
-            });
+            }
         } else {
             alert(`Inventory is empty`);
         }
@@ -129,6 +124,7 @@ async function editJewel(j_id) {
         if (j_data.length > 0) {
             console.log(j_data[0])
             let raw_data = j_data[0]
+            document.getElementById('uj_id').innerText = j_id;
             document.getElementById('uj_tag').value = raw_data.j_tag;
             document.getElementById('uj_name').value = raw_data.j_name;
             document.getElementById('uj_material').value = raw_data.j_material;
@@ -190,12 +186,89 @@ function deleteJewel(j_id) {
     alert(`Delete Jewel with ID: ${j_id}`);
 }
 
+// ========================== Price chart section ==========================
 
+// ========== set the price of the price table ==========================
 
-function get_price(j_material, j_purity) {
-    console.log(`${j_material}_price_${j_purity}`);
-    let material_price = document.getElementById(`${j_material}_price_${j_purity}`).value
-    return Number(material_price)
+async function save_price(u_id) {
+    let priceData = [];
+
+    // Select all table rows inside tbody
+    const rows = document.querySelectorAll("#price_table_section tbody tr");
+
+    rows.forEach(row => {
+        const material = row.children[1].innerText.trim();  // Material (Gold/Silver)
+        const purity = row.children[3].innerText.trim();    // Purity (24k/22k/18k)
+        const price = row.children[5].querySelector("input").value; // Price from input field
+
+        if (material && purity && price) {
+            priceData.push({ material, purity, price });
+        }
+    });
+    for (var i = 0; i < priceData.length; i++){
+        console.log(priceData[i])
+        await set_price(priceData[i], u_id)
+    }
+    location.reload();
+}
+
+async function price_chart(u_id) {
+    // Select all table rows inside tbody
+    const rows = document.querySelectorAll("#price_table_section tbody tr");
+
+    for (const row of rows) {  // Use a for-loop instead of forEach to handle async properly
+        const material = row.children[1].innerText.trim();  // Material (Gold/Silver)
+        const purity = row.children[3].innerText.trim();    // Purity (24k/22k/18k)
+        const priceInput = row.children[5].querySelector("input"); // Get the input field
+
+        try {
+            const price = await get_price(u_id, material, purity); // Fetch price from DB
+            if (price !== undefined) {
+                priceInput.value = price; // Update input field with fetched price
+            }
+        } catch (error) {
+            console.error(`Error fetching price for ${material} ${purity}:`, error);
+        }
+    }
+}
+
+async function get_price(u_id, j_material, j_purity) {
+    var url = `/get_price/${u_id}/${j_material}/${j_purity}`
+    var response = await fetch(url, {method:'GET'})
+    var result = await response.json();
+    if (response.ok){
+        var data = result.j_price.data[0];
+        var j_price = data['price']
+        // console.log({'j_price' : j_price, 'type': typeof j_price})
+        return j_price
+    }
+    else{
+        alert(`Not able to find the price with ${j_material} and ${j_purity}`);
+        return
+    }
+}
+
+async function set_price(data, u_id) {
+    try {
+        const response = await fetch (`/set_price/${u_id}`, {
+            method : 'POST',
+            headers : {
+                'Content-type' : 'application/json',
+            },
+            body: JSON.stringify(data)
+        });
+        const result = await response.json();
+        if (response.ok){
+            console.log(result.data)
+        }
+        else{
+            alert('Not able to save the prices to the databases')
+        }
+    }
+    catch (error) {
+        console.error('Error:', error);
+        alert('An error occurred while connecting to the server.');
+    }
 }
 
 
@@ -295,7 +368,7 @@ async function get_jewel(u_id) {
             let jewel_data = result.data;
             if (jewel_data.length > 0) {
                 console.log(jewel_data[0]);
-                appendJewelDetails(jewel_data[0])
+                appendJewelDetails(u_id, jewel_data[0])
                 console.log('jewel details displayed sucessfully')
             }
             else {
@@ -311,14 +384,9 @@ async function get_jewel(u_id) {
     }
 }
 
-function appendJewelDetails(jewel) {
+async function appendJewelDetails(u_id, jewel) {
     // Calculate price details
-    const j_material_price = get_price(jewel.j_material, jewel.j_purity);
-    const j_material_cost = j_material_price * jewel.j_weight;
-    const gst = (j_material_cost * jewel.j_gst) / 100;
-    const westage = (j_material_cost * jewel.j_westage) / 100;
-    const making_charge = (j_material_cost * jewel.j_making_charge) / 100;
-    const j_price = (j_material_cost + gst + westage + making_charge);
+    const total_amt_data = await total_amt(u_id, jewel)
     const cardHTML = `
         <div class="j-card" onclick="this.classList.toggle('flipped')">
             <div class="j-card-inner">
@@ -347,7 +415,7 @@ function appendJewelDetails(jewel) {
                         </div>
                     </div>
                     <button id="total_amt_btn" style="background-color: transparent; border: none;" onclick="redirectToBilling(${jewel.j_id})">
-                        <div class="j-card-price" style="margin-top: 30px;" id="totalAmt">Rs. ${j_price}</div>
+                        <div class="j-card-price" style="margin-top: 30px;" id="totalAmt">Rs. ${total_amt_data['total']}</div>
                     </button>
                 </div>
                 <!-- Back -->
@@ -519,18 +587,20 @@ async function delete_jewel(j_id) {
     }
 }
 
-async function total_amt(data) {
-    let material_price = (get_price(data.j_material, data.j_purity)) * data.j_weight;
+async function total_amt(u_id, data) {
+    let material_price = (await get_price(u_id, data.j_material, data.j_purity)) * data.j_weight;
     let westage = material_price * (data.j_westage / 100);
     let making_charge = (material_price + westage) * (data.j_making_charge / 100);
     let gst = (material_price + westage + making_charge) * (data.j_gst / 100);
     let total = material_price + westage + making_charge + gst;
+    let without_gst = material_price + westage + making_charge;
     let total_amt_data = {
         'material_price': material_price.toFixed(2),
         'westage': westage.toFixed(2),
         'making_charge': making_charge.toFixed(2),
         'gst': gst.toFixed(2),
         'total': total.toFixed(2),
+        'without_gst' : without_gst.toFixed(2)
     }
     console.log(total_amt_data);
     return total_amt_data
@@ -586,11 +656,9 @@ function print_bill() {
 
 // ===================================== Billing Chart section ===============================
 async function redirectToBilling(j_id) {
-    // Get the total amount from the button
-    let totalAmt = document.getElementById("totalAmt").innerText.replace("Rs. ", "").trim();
     
     // Encode the amount to pass it via URL
-    var url = `/billing/${j_id}?total_amt=${encodeURIComponent(totalAmt)}`;
+    var url = `/billing/${j_id}`;
     
     console.log("Redirecting to:", url);
     window.location.href = url;
@@ -610,4 +678,4 @@ async function logout() {
     else {
         window.location.href = "/page_not_found"
     }
-}
+};
