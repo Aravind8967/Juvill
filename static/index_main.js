@@ -181,6 +181,7 @@ async function update_to_db(j_id, u_id) {
     }
 }
 
+
 // Delete functionality
 function deleteJewel(j_id) {
     alert(`Delete Jewel with ID: ${j_id}`);
