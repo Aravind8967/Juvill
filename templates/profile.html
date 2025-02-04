@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block title %}Profile{% endblock title %}
+
+{% block body %}
+<link rel="stylesheet" href="{{url_for('static', filename='profile.css')}}">
+<div class="container">
+    <div class="profile-card">
+        <h2 class="profile-title">User Profile</h2>
+        
+        <div class="profile-body">
+            <form id="profile-form">
+                <table class="profile-table">
+                    <tr>
+                        <td><label for="username">Name:</label></td>
+                        <td><input type="text" id="username" value="{{ data.user.u_name }}"></td>
+                    </tr>
+                    <tr>
+                        <td><label for="company_name">Company Name:</label></td>
+                        <td><input type="text" id="company_name" value="{{ data.user.u_company_name }}"></td>
+                    </tr>
+                    <tr>
+                        <td><label for="gst_no">GST No:</label></td>
+                        <td><input type="text" id="gst_no" value="{{ data.user.gst_no }}"></td>
+                    </tr>
+                    <tr>
+                        <td><label for="password">Password:</label></td>
+                        <td><input type="password" id="password" value="{{ data.user.u_password }}"></td>
+                    </tr>
+                </table>
+                <div class="profile-actions">
+                    <button type="button" class="btn btn-primary" onclick="updateProfile('{{ data.user.id }}')">Update</button>
+                    <button type="button" class="btn btn-danger" onclick="deleteProfile('{{ data.user.id }}')">Delete</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script src="{{url_for('static', filename='profile.js')}}"></script>
+{% endblock body %}
