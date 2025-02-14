@@ -44,3 +44,59 @@ server {
         proxy_pass http://unix:/home/juvill015/juvill/juvill.sock;
     }
 }
+
+
+
+===============================================================================================================Your Setup Overview:
+Project Setup Overview:
+
+    1). Flask (Backend - Application Layer): Handles business logic, user authentication, and database interactions.
+    2). HTML/CSS/JS (Frontend - Client Layer): Displays the UI and interacts with the backend.
+    3). Gunicorn (Application Server): Runs Flask and manages multiple worker processes.
+    4). NGINX (Web Server & Reverse Proxy): Handles incoming requests, serves static content, and forwards dynamic requests to Gunicorn.
+        1. What is NGINX Doing in Your Setup?
+
+* NGINX in your setup is acting as a web server and reverse proxy:
+✅ Web Server Role:
+
+* Serves static content like images, CSS, and JavaScript files.
+Manages incoming HTTP requests efficiently.
+✅ Reverse Proxy Role:
+
+1. Forwards dynamic requests (like user login, adding/deleting jewelry) to Gunicorn.
+    Handles SSL (if configured) and load balancing if multiple Gunicorn instances are used.
+    Protects your backend by preventing direct access to Gunicorn.
+    👉 Without NGINX, users would directly access Gunicorn, which is not optimized for handling static files or handling traffic efficiently.
+
+2. What is Gunicorn Doing in Your Setup?
+    Gunicorn (Green Unicorn) is an application server that runs your Flask application:
+    ✅ Application Server Role:
+
+    Runs multiple worker processes, allowing Flask to handle multiple requests simultaneously.
+    Acts as a bridge between Flask and NGINX.
+    Improves performance compared to Flask’s built-in development server.
+    👉 Without Gunicorn, Flask’s default server (Werkzeug) would struggle to handle multiple users efficiently.
+
+3. Which Web Server and Application Server Are You Using?
+    Component	Server Type	Your Setup
+    Web Server	NGINX	✅ Used for serving static files & reverse proxy
+    Application Server	Gunicorn	✅ Used to run Flask efficiently
+
+4. How Your Setup Works (Step-by-Step)
+    1️⃣ User visits your website (e.g., example.com)
+    2️⃣ NGINX receives the request (acting as a web server)
+    3️⃣ NGINX checks if it's a static file (CSS, JS, images)
+
+==== If static, NGINX serves it directly. ====
+
+If dynamic (e.g., login, inventory update), NGINX forwards it to Gunicorn.
+    4️⃣ Gunicorn processes the request using Flask (fetching data, handling logic).
+    5️⃣ Gunicorn sends the response back to NGINX.
+    6️⃣ NGINX delivers the final response to the user’s browser.
+
+
+5. Why Is This Setup Good?
+    ✅ Better Performance: Gunicorn enables Flask to handle multiple users efficiently.
+    ✅ Security: NGINX prevents users from directly accessing Gunicorn.
+    ✅ Scalability: You can easily add more Gunicorn workers or backend servers.
+    ✅ Efficiency: NGINX efficiently handles static content and proxies requests.
