@@ -1,12 +1,12 @@
 from flask import Flask, jsonify,render_template,flash,request,redirect,session, url_for
-from db_files.users import Users
-from db_files.inventory import Inventory
-from db_files.price_table import price_table
+from db_files import Users
+from db_files import Inventory
+from db_files import Price_table
 from flask_cors import CORS
 
 db = Users()
 inventory = Inventory()     
-p_table = price_table()
+p_table = Price_table()
 
 app = Flask(__name__)
 CORS(app)

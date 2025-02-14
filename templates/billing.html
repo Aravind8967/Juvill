@@ -1,13 +1,13 @@
 {% extends 'base.html' %}
-{% block title %} welcome {{data.user.u_name}} {% endblock title%}
+{% block title %} Welcome {{data.user.u_name}} {% endblock title %}
 
 {% block body %}
-
 <div style="margin-top: 10rem;">
     <div class="billing-container">
         <div class="billing-header">
             <h2>{{ data.user.u_company_name }}</h2>
             <p>GST No: {{ data.user.gst_no }}</p>
+            <p>Date: <span id="billing-date"></span></p> <!-- Date Section -->
         </div>
 
         <!-- Jewel Details -->
@@ -38,9 +38,46 @@
                 </tr>
             </tbody>
         </table>
+
+        <!-- Jewel Given Price Section -->
+        <div class="mb-3">
+            <label for="jewel-given" class="form-label">Is Customer Giving Old Jewel?</label>
+            <select id="jewel-given" class="form-select" onchange="toggleJewelGivenInput()">
+                <option value="no" selected>No</option>
+                <option value="yes">Yes</option>
+            </select>
+        </div>
+
+        <!-- Old Jewel Details in a Table Row -->
+        <div id="jewel-given-details" style="display: none;">
+            <table class="table table-dark table-bordered">
+                <thead>
+                    <tr>
+                        <th>Jewel Name</th>
+                        <th>Jewel Material</th>
+                        <th>Jewel Weight (grams)</th>
+                        <th>Price per Gram (Rs.)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><input type="text" id="old-jewel-name" class="form-control" placeholder="Enter name" required></td>
+                        <td>
+                            <select id="old-jewel-material" class="form-select">
+                                <option value="Gold">Gold</option>
+                                <option value="Silver">Silver</option>
+                            </select>
+                        </td>
+                        <td><input type="number" id="old-jewel-weight" class="form-control" placeholder="Weight in grams" required></td>
+                        <td><input type="number" id="old-jewel-price" class="form-control" placeholder="Price per gram" required></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
         <div class="mb-3">
             <label for="gst-selector" class="form-label">Include GST?</label>
-            <select id="gst-selector" class="form-select" onchange="calculateTotal('{{data.user.id}}')">
+            <select id="gst-selector" class="form-select">
                 <option value="yes" selected>Yes</option>
                 <option value="no">No</option>
             </select>
@@ -48,15 +85,22 @@
 
         <!-- Buttons -->
         <div class="buttons-row mt-4 d-flex justify-content-between">
+            <button class="btn btn-primary" onclick="calculateTotal('{{data.user.id}}')">Calculate</button>
             <button class="btn btn-success" onclick="printPage()">Print</button>
         </div>
     </div>
 </div>
+
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        calculateTotal('{{data.user.id}}');  // Initialize total amount on page load
+        let today = new Date();
+        let formattedDate = today.getDate().toString().padStart(2, '0') + '/' + 
+                            (today.getMonth() + 1).toString().padStart(2, '0') + '/' + 
+                            today.getFullYear();
+        document.getElementById("billing-date").innerText = formattedDate;
     });
 </script>
+
 <script src="{{url_for('static', filename='billing.js')}}"></script>
 
 {% endblock body %}
