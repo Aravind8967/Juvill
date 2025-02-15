@@ -99,3 +99,7 @@ button:hover{
     color: black;  /* Adjust as needed */
     background: transparent; /* Slight transparency */
 }
+
+.contact-info #contact-title {
+	font-size: 20px;
+}
