@@ -88,7 +88,7 @@ async function get_all_inventory(u_id) {
                         </div>
                         <!-- Back -->
                         <div class="j-card-back">
-                            <img src="${jewel.j_image || 'default_img.jpg'}" alt="${jewel.j_name}">
+                            <img src="/static/img/${jewel.j_material.toLowerCase()}.png" alt="Jewel img">
                         </div>
                     </div>
                 `;
@@ -405,7 +405,7 @@ async function appendJewelDetails(u_id, jewel) {
                 </div>
                 <!-- Back -->
                 <div class="j-card-back">
-                    <img src="${jewel.j_image || 'default_img.jpg'}" alt="Image of ${jewel.j_name}" style="width: 100%; height: 100%;">
+                    <img src="/static/img/${jewel.j_material.toLowerCase()}.png" alt="Jewel img">
                 </div>
             </div>
         </div>

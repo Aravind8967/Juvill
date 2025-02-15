@@ -14,6 +14,16 @@ command to transfer all the files to the server
 command to run the app on gunicorn
     --> gunicorn --bind 0.0.0.0:5000 wsgi:app
 
+========================================================================================
+DB setting of .env file
+
+DB_HOST=localhost
+DB_PORT=3306
+DB_NAME=jewelry
+DB_USER=juvill015
+DB_PASSWORD=Aru.8967
+
+
 ================== juvill.service file for gunicorn arrengment ==========================
 
 [Unit]
