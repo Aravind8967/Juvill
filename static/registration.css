@@ -89,3 +89,13 @@ button:hover{
 #chk:checked ~ .signup label{
 	transform: scale(.6);
 }
+
+.contact-info {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    font-size: 16px;
+    font-weight: bold;
+    color: black;  /* Adjust as needed */
+    background: transparent; /* Slight transparency */
+}
