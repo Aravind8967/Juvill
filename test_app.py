@@ -20,5 +20,13 @@ def get_price(u_id, j_material, j_purity):
     }
     return data
 
+def billing(j_id):
+        j_data = inventory.get_by_jewel_id(j_id)['data'][0]
+        data = {
+            'j_data': j_data,
+        }
+        return data
+
+
 if __name__ == '__main__':
-    print(get_price(9, 'Gold', '22k'))
+    print(billing(9, 'Gold', '22k'))
