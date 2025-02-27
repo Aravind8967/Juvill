@@ -53,9 +53,9 @@ class Inventory:
         if db['status'] == 200:
             try:
                 con = db['connection']
-                q = "INSERT INTO inventory (u_id, j_tag, j_name, j_material, j_purity, j_weight, j_westage, j_making_charge, j_gst) VALUES (%s,%s,%s,%s,%s,%s,%s, %s, %s);"
+                q = "INSERT INTO inventory (u_id, j_tag, j_name, j_material, j_purity, j_weight, j_westage, j_making_charge, j_gst, j_add_item) VALUES (%s,%s,%s,%s,%s,%s,%s, %s, %s, %s);"
                 cursor = con.cursor(dictionary=True)
-                cursor.execute(q, (data['u_id'],data['j_tag'], data['j_name'], data['j_material'], data['j_purity'], data['j_weight'], data['j_westage'], data['j_making_charge'], data['j_gst']))
+                cursor.execute(q, (data['u_id'],data['j_tag'], data['j_name'], data['j_material'], data['j_purity'], data['j_weight'], data['j_westage'], data['j_making_charge'], data['j_gst'], data['j_add_item']))
                 db['connection'].commit()
                 return {'status':200, 'data':'New Jewelery inserted to inventory'}
             except:
@@ -91,9 +91,9 @@ class Inventory:
         db = self.db_connection()
         if db['status'] == 200:
             con = db['connection']
-            q = "UPDATE inventory SET j_tag=%s, j_name=%s, j_material=%s, j_purity=%s, j_weight=%s, j_westage=%s, j_making_charge=%s, j_gst=%s WHERE j_id=%s"
+            q = "UPDATE inventory SET j_tag=%s, j_name=%s, j_material=%s, j_purity=%s, j_weight=%s, j_westage=%s, j_making_charge=%s, j_gst=%s, j_add_item=%s WHERE j_id=%s"
             cursor = con.cursor(dictionary=True)
-            cursor.execute(q, (data['j_tag'], data['j_name'], data['j_material'], data['j_purity'], data['j_weight'], data['j_westage'], data['j_making_charge'], data['j_gst'], j_id))
+            cursor.execute(q, (data['j_tag'], data['j_name'], data['j_material'], data['j_purity'], data['j_weight'], data['j_westage'], data['j_making_charge'], data['j_gst'], data['j_add_item'], j_id))
             con.commit()
             return {'status':200, 'data':'Jewel details Updated'}
         else:

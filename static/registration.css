@@ -96,10 +96,11 @@ button:hover{
     left: 20px;
     font-size: 16px;
     font-weight: bold;
-    color: black;  /* Adjust as needed */
+    color: white;  /* Adjust as needed */
     background: transparent; /* Slight transparency */
 }
 
 .contact-info #contact-title {
+	color: white;
 	font-size: 20px;
 }

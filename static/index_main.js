@@ -65,7 +65,6 @@ async function get_all_inventory(u_id) {
                         <!-- Front -->
                         <div class="j-card-front">
                             <div class="edit-btn" onclick="editJewel(${jewel.j_id})">&#9998;</div>
-                            <div class="delete-btn" onclick="deleteJewel(${jewel.j_id})">&#128465;</div>
                             <div class="j-card-tag">${jewel.j_tag}</div>
                             <div class="j-card-title">${jewel.j_name}</div>
                             <div class="j-card-info-section ${jewel.j_material.toLowerCase()}">
@@ -125,6 +124,7 @@ async function editJewel(j_id) {
             document.getElementById('uj_name').value = raw_data.j_name;
             document.getElementById('uj_material').value = raw_data.j_material;
             document.getElementById('uj_purity').value = raw_data.j_purity;
+            document.getElementById('uj_add_item').value = raw_data.j_add_item;
             document.getElementById('uj_weight').value = raw_data.j_weight;
             document.getElementById('uj_westage').value = raw_data.j_westage;
             document.getElementById('uj_making_charge').value = raw_data.j_making_charge;
@@ -147,6 +147,7 @@ async function update_to_db(j_id, u_id) {
         'j_name': document.getElementById('uj_name').value,
         'j_material': document.getElementById('uj_material').value,
         'j_purity': document.getElementById('uj_purity').value,
+        'j_add_item': document.getElementById('uj_add_item').value,
         'j_weight': document.getElementById('uj_weight').value,
         'j_westage': document.getElementById('uj_westage').value,
         'j_making_charge': document.getElementById('uj_making_charge').value,
@@ -311,6 +312,7 @@ async function insert_new_jewel(u_id) {
         'j_westage': document.getElementById('j_westage').value,
         'j_making_charge': document.getElementById('j_making_charge').value,
         'j_gst': document.getElementById('j_gst').value,
+        'j_add_item': document.getElementById('j_add_item').value,
     };
     try {
         // Send data to the backend
@@ -379,7 +381,6 @@ async function appendJewelDetails(u_id, jewel) {
                 <!-- Front -->
                 <div class="j-card-front">
                     <div class="edit-btn" onclick="editJewel(${jewel.j_id})">&#9998;</div>
-                    <div class="delete-btn" onclick="deleteJewel(${jewel.j_id})">&#128465;</div>
                     <p id="jewel_id" style="font-size: 60px; display: none;">${jewel.j_id}</p>
                     <p id="jewelMaterial" style="font-size: 60px; display: none;">${jewel.j_material}</p>
                     <p id="jewelMaterialprice" style="font-size: 60px; display: none;">${jewel.j_making_charge}</p>
@@ -480,8 +481,8 @@ async function total_amt(u_id, data) {
     let westage = material_price * (data.j_westage / 100);
     let making_charge = (material_price + westage) * (data.j_making_charge / 100);
     let gst = (material_price + westage + making_charge) * (data.j_gst / 100);
-    let total = material_price + westage + making_charge + gst;
-    let without_gst = material_price + westage + making_charge;
+    let total = material_price + westage + making_charge + gst + data.j_add_item;
+    let without_gst = material_price + westage + making_charge  + data.j_add_item;
     let total_amt_data = {
         'material_price': material_price.toFixed(2),
         'westage': westage.toFixed(2),

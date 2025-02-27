@@ -3,6 +3,7 @@ async function calculateTotal(u_id) {
     const j_gst = parseInt(document.getElementById('bj_gst').innerText);
     const j_material = document.getElementById('bj_material').innerText;
     const j_purity = document.getElementById('bj_purity').innerText;
+    const j_add_item = parseFloat(document.getElementById('bj_add_item').innerText);
     const j_weight = parseFloat(document.getElementById('bj_weight').innerText);
     const j_making_charge = parseFloat(document.getElementById('bj_making_charge').innerText);
     const j_westage = parseFloat(document.getElementById('bj_westage').innerText);
@@ -18,6 +19,7 @@ async function calculateTotal(u_id) {
     let data = {
         'j_material': j_material,
         'j_purity': j_purity,
+        'j_add_item':j_add_item,
         'j_westage': j_westage,
         'j_weight': j_weight,
         'j_gst': j_gst,
