@@ -23,6 +23,9 @@ Over the past year, I have been passionately exploring cloud technologies—tran
 1. **Clone the Repository:**
    ```bash
    git clone https://github.com/Aravind8967/Juvill.git
+   cd Juvill
+   pip install -y flask mysql-connector-python
+   python app.py
 
 
 ![image](https://github.com/user-attachments/assets/6a40b210-7a55-4fb0-900f-1c338d679b8b)
