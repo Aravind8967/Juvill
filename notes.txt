@@ -1,6 +1,8 @@
 --> ssh -i ~/.ssh/gcp_vm juvill015@34.42.41.66
 --> ssh -i GCP/gcp_vm juvill015@34.42.41.66
 
+DB_connection commands
+    --> mysql -u juvill015 -p
 
 gcp connection command 
     --> ssh -i gcp_vm juvill015@34.42.41.66
@@ -10,6 +12,7 @@ gcp server project path
 
 command to transfer all the files to the server
     --> scp -i GCP/gcp_vm -r * juvill015@34.42.41.66:/home/juvill015/juvill
+    --> scp -i ~/.ssh/gcp_vm -r * juvill015@34.42.41.66:/home/juvill015/juvill
 
 command to run the app on gunicorn
     --> gunicorn --bind 0.0.0.0:5000 wsgi:app
